@@ -96,6 +96,14 @@ body{
     box-shadow: inset 0px 0px 0px 1px black;
     background: #ecf0f1;
 }
+/* bill items, internal css */
+.item-bill{
+    display: flex;
+    flex-direction: row;
+}
+.item-bill > div{
+    flex:1
+}
 
 
 /* bill summary */
@@ -119,3 +127,5 @@ body{
     box-shadow: inset 0px 0px 0px 1px black;
     background: #ecf0f1;
 }
+
+

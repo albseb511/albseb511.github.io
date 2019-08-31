@@ -24,7 +24,7 @@ function _itemsFill(category){
     for(let i=0;i<menu.items.length;i++){
         // console.log(menu.items[i].category)
         if(menu.items[i].category===category)
-            div += `<div><div>${menu.items[i].name}</div><div>Price:${menu.items[i].price}</div></div>`
+            div += `<div onclick='_itemAdd(${menu.items[i].id})'><div>${menu.items[i].name}</div><div>Price:${menu.items[i].price}</div></div>`
     }
 
     div += '</div>'

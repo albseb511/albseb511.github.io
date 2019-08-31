@@ -1,9 +1,6 @@
-
-
-
-
 _menuBarFill()
 _itemsFill()
-_TableItemsFill()
+// _TableItemsFill()
+_orderAdd(order)
 _billFill()
 _catListener()
