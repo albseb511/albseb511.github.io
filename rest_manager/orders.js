@@ -63,8 +63,8 @@ function onClear(){
 }
 
 function makeBill(){
-    var order = new Sale(subtotal[3])
-    sales.push(order)
+    var sale = new Sale(subtotal[3],order)
+    sales.push(sale)
     console.log(sales)
     onClear()
 }

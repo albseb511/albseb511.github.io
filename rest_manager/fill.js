@@ -64,7 +64,7 @@ function _billFill(clear=''){
         return 0
     }
     var div = '<div>TOTAL</div><div>'
-    
+    subtotal = [0,0,0,0]
     if(order.length>1){
         for(let i=0;i<order.length;i++){
             subtotal[0]+=order[i].total

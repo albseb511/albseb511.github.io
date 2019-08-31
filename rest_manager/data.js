@@ -3,9 +3,10 @@ var order = []
 var subtotal = [0,0,0,0]
 var sales = []
 
-function Sale(amt){
+function Sale(amt,item){
     this.amt = amt;
     this.id = new Date().getUTCMilliseconds();
+    this.item = item
 }
 
 function Items(name,price,id){
