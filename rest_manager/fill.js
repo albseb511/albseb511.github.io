@@ -21,6 +21,7 @@ function _itemsFill(category){
     category = category || menu.items[0].category
     console.log('filling items '+category)
     var cont = document.getElementById('items')
+    cont.style.background='#f44336'
     var div = '<div>'
 
     for(let i=0;i<menu.items.length;i++){
