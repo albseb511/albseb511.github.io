@@ -51,13 +51,27 @@ function _TableItemsFill(){
 
 
 function _billFill(){
+    if(order.length===0)
+        return 0
     console.log('filling bill total')
     var cont = document.getElementById('bill-total')
     var div = '<div>TOTAL</div><div>'
-
+    var subtotal = [0,0,0,0]
+    if(order.length>1){
+        for(let i=0;i<order.length;i++){
+            subtotal[0]+=order[i].total
+            subtotal[1]+=order[i].count*10
+        }
+    }
+    else {
+        subtotal[0] = Number(order[0].total)
+        subtotal[1] = 10
+    }
+    subtotal[2] = (subtotal[0]+subtotal[1])*0.05
+    subtotal[3] = subtotal.reduce((a,b)=>a+b)
     for(let i=0;i<total.length;i++){
         // console.log(i,div)
-        div += `<div><div>${total[i]}: 100</div></div>`
+        div += `<div><div>${total[i]}</div><div> ${subtotal[i]}</div></div>`
     }
 
     div += '</div>'

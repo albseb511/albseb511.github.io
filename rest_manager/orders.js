@@ -49,4 +49,5 @@ function _itemAdd(orderId){
     else order.push(item)
     // console.log('itemAdd called',order)
     _orderAdd(order)
+    _billFill()
 }

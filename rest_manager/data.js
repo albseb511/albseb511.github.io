@@ -115,5 +115,5 @@ var menu = {
     ]
 }
 
-order.push(new Items(menu.items[0].name,menu.items[0].price,menu.items[0].id))
+// order.push(new Items(menu.items[0].name,menu.items[0].price,menu.items[0].id))
 // console.log(menu)
