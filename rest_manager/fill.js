@@ -9,6 +9,8 @@ function _menuBarFill(){
         div += `<div class='category'>${category[i].toUpperCase()}</div>`
     }
     
+    div+='<div onclick="showSales()">SALES</div>'
+
     cont.innerHTML = div
     // console.log(cont,div)
     
@@ -50,13 +52,18 @@ function _TableItemsFill(){
 }
 
 
-function _billFill(){
+function _billFill(clear=''){
     if(order.length===0)
         return 0
     console.log('filling bill total')
     var cont = document.getElementById('bill-total')
+    if(clear===null){
+        cont.innerHTML=''
+        order=[]
+        return 0
+    }
     var div = '<div>TOTAL</div><div>'
-    var subtotal = [0,0,0,0]
+    
     if(order.length>1){
         for(let i=0;i<order.length;i++){
             subtotal[0]+=order[i].total
@@ -75,6 +82,7 @@ function _billFill(){
     }
 
     div += '</div>'
+    div += '<div onclick="makeBill()" id="make-bill">MAKE BILL</div>'
     
     cont.innerHTML = div
     // console.log(cont,div)

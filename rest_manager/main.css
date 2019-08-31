@@ -113,7 +113,7 @@ body{
 
 
 .bill-total > div:first-child {
-    padding:20px;
+    padding:10px;
     background: rgb(209, 196, 196);
     text-align: center;
     font-size: 20px;
@@ -135,3 +135,14 @@ body{
     text-align: right;
 }
 
+/* make bill */
+.bill-total > :last-child{
+    background: #ecf0f1;
+    text-align: center;
+    height: 40px;
+    padding-top:15px;
+}
+.bill-total > :last-child:hover{
+    background: #cccccc;
+    cursor: pointer;
+}

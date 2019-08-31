@@ -1,6 +1,12 @@
-var items = ['Milkshake','Sandwich','Chai','Milkshake','Sandwich','Chai','Milkshake','Sandwich','Chai','Milkshake','Sandwich','Chai','Milkshake','Sandwich','Chai']
 var total = ['Subtotal','Packaging','Taxes @ 5%','Total']
 var order = []
+var subtotal = [0,0,0,0]
+var sales = []
+
+function Sale(amt){
+    this.amt = amt;
+    this.id = new Date().getUTCMilliseconds();
+}
 
 function Items(name,price,id){
     this.id = id

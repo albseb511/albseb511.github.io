@@ -8,6 +8,10 @@ function _orderAdd(item){
     // var item = [{name:'Apple Milkshake',price:'120'}]
     console.log('filling bill items',item)
     var cont = document.getElementById('bill-items')
+    if(item===null){
+        cont.innerHTML=''
+        return 0
+    }
     var div = '<div>Bill Summary</div><div>'
 
     for(let i=0;i<item.length;i++){
@@ -50,4 +54,17 @@ function _itemAdd(orderId){
     // console.log('itemAdd called',order)
     _orderAdd(order)
     _billFill()
+}
+
+function onClear(){
+    _orderAdd(null)
+    _billFill(null)
+    
+}
+
+function makeBill(){
+    var order = new Sale(subtotal[3])
+    sales.push(order)
+    console.log(sales)
+    onClear()
 }
