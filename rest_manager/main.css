@@ -1,0 +1,118 @@
+body{
+    background-image: linear-gradient(to right, #F00000, #DC281E);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+/* grid */
+.container{
+    display: grid;
+    grid-template-columns: repeat(12,fr);
+    grid-auto-rows: 250px;
+    grid-gap: 10px;
+}
+
+.container > div {
+    
+    border-radius: 10px;
+    background: #f44336
+}
+/* menu bar */
+.menu-bar{
+    grid-area: 1 / 1 / 4 / 3;
+    
+}
+.menu-bar > div {
+    height: 40px;
+    padding: 20px 0 0 50px;
+    margin: 10px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    
+
+}
+.menu-bar > div:hover{
+    cursor: pointer;
+    background: #e74c3c;
+    color: #ecf0f1
+}
+
+#menu-head{
+    cursor: default;
+    margin: 0;
+    border-radius: 0;
+    font-size:20px;
+    background: #ecf0f1;
+}
+
+/* items */
+
+
+.items{
+    grid-area: 1 / 3 / 4 / 6;
+}
+
+
+.items > div{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-auto-rows: 100px;
+    grid-gap: 20px;    
+    margin:20px;
+}
+
+.items > div > div {
+    text-align: center;
+    
+    width: 1fr;
+    padding: 30px;
+    background: #ecf0f1;
+}
+
+.items > div > div:hover{
+    box-shadow: inset 0px 0px 0px 2px black;
+    
+}
+/* bill items */
+.bill-items{
+    grid-area: 1 / 6 / 3 / 12;
+    overflow-y: scroll;
+    padding: 10px;
+    
+}
+
+.bill-items > div:first-child {
+    padding:20px;
+    background: rgb(209, 196, 196);
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+.bill-items > div > div{
+    padding: 10px;
+    box-shadow: inset 0px 0px 0px 1px black;
+    background: #ecf0f1;
+}
+
+
+/* bill summary */
+.bill-total{
+    grid-area: 3 / 6 / 4 / 12;
+}
+
+
+.bill-total > div:first-child {
+    padding:20px;
+    background: rgb(209, 196, 196);
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+
+.bill-total > div > div{
+    padding: 10px;
+    box-shadow: inset 0px 0px 0px 1px black;
+    background: #ecf0f1;
+}
