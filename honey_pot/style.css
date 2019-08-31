@@ -1,0 +1,362 @@
+body{
+  background:#e2e2e2;
+}
+.nav{
+  font-family: 'Roboto', sans-serif;
+    display:flex;
+    flex-flow: row nowrap;
+    margin: 0 0 0 15px;
+    padding:10px;
+    align-items:center;
+    justify-content:center;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    background: #fff;
+    box-shadow: 0 8px 6px -9px black;
+    margin-left: -10px;
+    text-decoration: none;
+    
+  }
+  .nav > div{
+      flex: 1;
+      justify-content:center;
+      height:40px;
+      text-align: center;
+      padding-top: 1.5%;
+      margin: 0 20px;
+      
+  }
+
+  div > a{
+    cursor: pointer;
+  }
+  
+  .nav > div:nth-child(1),.nav > div:nth-child(6){
+    flex:2;
+    text-align:left;
+  }
+
+  /* link decoration removal */
+  .nav > div > a {
+    text-decoration: none;
+    color:black;
+
+  }
+  
+  /* .nav > div:nth-last-child(3){
+          flex:0.3;
+          margin:auto;
+          border-radius:25px;
+  } */
+  div > input {
+    border-radius: 20px;
+    height:25px;
+    width: 100%;
+    height: 35px;
+    font-size: 16px;
+    margin-top: -5px;
+    padding-left: 15px;
+  }
+  .nav > div:nth-last-child(1):hover, .nav > div:nth-last-child(2):hover{
+    background:#e2e2e2;
+    border-radius:15px;
+    cursor: pointer;
+  }
+  
+  /* Content Grid */
+  .content{
+    display:grid;
+    grid-template: repeat(6,1fr);
+    grid-auto-rows: minmax(120px, max-content);
+    margin: auto;
+    margin-top: 100px;
+    grid-gap:25px;
+    
+  }
+  .content > div {
+    padding:5px;
+    /* border:1px solid gray; */
+    border-radius:15px;
+    margin:10px;
+    /* background:lightyellow; */
+    font-family: 'Roboto', sans-serif;
+  }
+  /* search bar items */
+  #sbar-items {
+    
+    height:100px;
+    display: flex;
+  }
+  
+  .content > div:nth-child(1){
+    grid-area: 1 / 1 / 4 / 6;
+  }
+  
+  div.left-bar{
+    grid-area: 4 / 1 / span 3 / span 1;
+    background:#fff;
+    
+  }
+  div.left-bar div{
+    font-size: 15px;
+    padding-left: 10px;
+    margin:20px;
+  }
+ 
+  div.left-bar > div:first-child{
+    font-size: 25px;
+    padding: 10px;
+  }
+  
+  .content > div:nth-child(3){
+    grid-area: 4 / 2 / 5 / 6;
+    height: 50px;    
+  }
+  .content > div:nth-child(3) > div{
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    margin-left: 40%;
+    height: 30px;
+    padding: 15px 10px 0px 10px;
+    flex:1;
+    border-radius: 25px;
+    background: #212121;
+    color:white;
+    font-size:20px
+  }
+      
+  /* .items */
+  .content > div:nth-child(n+4){
+    background:#fff;
+    margin-top:5px;
+    height: 300px;
+    text-align:center;
+    
+  }
+      
+  .items > div {
+    text-align:left;
+    padding:2px;
+  }
+  .items > div:nth-child(3) {
+    font-size:20px;
+    color:green;
+  }
+  .items > div:nth-child(4) {
+    font-size:16px;
+    color:green;
+  }
+
+  .items > div > span > a {
+    color:black;
+  }
+
+
+  .nav > div > img{
+    max-width:100%;
+    max-height:100%;
+    margin: auto;
+    border-radius: 10px;
+    }
+  .cover{
+    background-image: url('./resources/honey.jpg');
+    height:100%;
+    width: 100%;
+    margin: auto;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    
+  }
+  #item-search{
+    width: 50%;
+    margin: auto;
+    flex:2;
+    border:transparent;
+    background:#fff  }
+
+/* Image product */
+.prod-img{
+  width: 100px;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  margin: 15px 0 15px 0;
+}
+
+
+/* footer */
+.footer{
+  display: flex;
+  background: #212121;
+  height:atuo;
+  margin-top:50px;
+  color:white;
+  font-family: 'Roboto', sans-serif;
+  justify-content: space-evenly;
+  padding:25px;
+}
+
+.footer > div{
+  flex:1;
+  margin:auto;
+  text-align: center;
+}
+
+.footer > div >p:first-child{
+  font-weight: bold;
+}
+
+/* sort button */
+#sort:hover{
+  cursor: pointer;
+}
+
+/* Cover info */
+.alt-pages{
+  margin-bottom:100px; 
+}
+.margin{
+  margin-bottom: 10px;
+}
+
+/* Careers Page */
+#career{
+  background-image: url('./resources/careers.jpg');
+}
+
+.info{
+  background: #fff;
+  height:100%;
+  width: 100%;
+  margin: 50px 50px ;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  grid-area: 4/1/span 2/span 5;
+  text-align: center;
+  padding-top:50px;
+}
+
+/* About us page */
+
+#about{
+  background-image: url('./resources/team.jpg');
+}
+
+
+/* Partner Information */
+
+#partner{
+  background-image: url('./resources/partner.jpg');
+  
+}
+
+.btn{
+  width:150px;
+  height:30px;
+  border-radius: 10px;
+  background-color: #263238;
+  color:#e2e2e2;
+  margin: auto;
+  padding: 15px 0 5px 0;
+  margin-top: 50px;
+}
+.btn:hover{
+  cursor: pointer;
+}
+
+
+/* MEDIA QUERIES FOR <900px */
+@media (max-width:900px){
+  /* body{
+    background: black;
+  } */
+  .nav{
+    flex-wrap: wrap;
+  }
+  .nav > div:first-child{
+    display: none;
+  }
+  .footer{
+    flex-wrap: wrap;
+    margin-top: 100px;
+  }
+    /* Content Grid */
+    .content{
+      grid-template: repeat(4,1fr);
+      grid-gap: 15px;
+      
+    }
+    .content > div:nth-child(1){
+      margin: auto;
+      width: 80%;
+      grid-area: 1 / 1 / 4 / 6;
+    }
+    div.left-bar{
+      grid-area: 4 / 1 / span 2 / span 1;
+      
+    }
+
+    div.left-bar div{
+      font-size: 12px;
+      padding-left: 5px;
+      margin:15px 5px;
+    }
+    .content > div:nth-child(n+4){
+      width: 80%;
+      margin-top: 25px;
+      grid-column: span 2;
+      margin:auto;
+      
+    }
+
+}
+
+
+
+
+/* MEDIA QUERIES FOR <700px */
+@media (max-width:760px){
+  /* body{
+    background: blue;
+  } */
+  #search{
+    display: none;
+    flex:0.1;
+  }
+  #sbar-items{
+    display: none
+  }
+  div.left-bar{
+    display: none;
+    
+  }
+}
+
+
+/* MEDIA QUERIES FOR <500px */
+@media (max-width:500px){
+  /* body{
+    background: red;
+  } */
+  .nav{
+    flex-wrap: wrap;
+  }
+  div > a{
+    font-size: 8px;
+  }
+  .content > div:nth-child(n+4){
+    text-align: center;
+    margin-top: 25px;
+    grid-column: span 4;
+    
+    
+  }
+
+
+
+}
+

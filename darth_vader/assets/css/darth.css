@@ -1,0 +1,180 @@
+.backBody{
+    background: url("https://images4.alphacoders.com/884/884071.jpg");
+    opacity: 1;
+    z-index: -100;
+    width: 98%;
+    height: 95%;
+    background-size: contain;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    
+    position: absolute;
+}
+.mainBody{
+    z-index: 1;
+    
+}
+.header-nav-bar{
+    display:flex;
+    justify-content: space-around;
+    height:10%;
+    background: #212121;
+    width: 100%;
+    position: fixed;
+    border-radius: 20px;
+}
+
+.header-item{
+    flex:1 1 auto;
+    width:100%;
+    padding-top: 1%;
+    text-align: center;
+    align-self: stretch;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+    background-color:#212121;
+    padding: 1.8% 0 0 0;
+    text-decoration: none;
+    border-radius: 20px;
+    
+}
+
+.header-item:hover{
+    opacity: 0.8;
+    background-color: #e2e2e2;
+    color:#212121;
+    cursor: pointer;
+}
+body{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+
+.body{
+    display: flex;
+    justify-content: space-around;
+    height: 90%;
+    width: 100%;
+    border-radius: 20px;
+    
+}
+.content{
+    border-width: thick;
+    border-radius: 10%;
+    border-color: black;
+    margin: auto;
+    
+    
+}
+.img{
+    border-radius: 15px;
+    text-align: center;
+}
+.img:hover{
+    background-color: #ffffff;
+    opacity: 0.9;
+}
+.left{
+    margin:100px 0 0 50px;
+    width:500px;
+    height: 600px;
+    background-color: #e2e2e2;
+    border-radius: 2px;
+    padding: 20px 30px;
+}
+.text{
+    font-size: 11px;
+    text-align: justify;
+    
+}
+
+.row{
+    display: flex;
+    justify-content: space-around
+}
+
+.empire-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    width: 100%
+}
+
+.card{
+    width:500px;
+    height: 500px;
+    background-color: #e2e2e2;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+.empire-img{
+    width: 100%;
+    height: 400px;
+    background-image: url('https://cms-assets.theasc.com/Empire-Strikes-Back-Featured.jpeg?mtime=20190620155916');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    
+}
+
+.career-img{
+    width: 50%;
+    height: 100%;
+    background-image: url('https://i.kym-cdn.com/photos/images/original/001/060/265/ce4.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size:cover;
+    
+}
+
+.intro{
+    width:50%;
+}
+
+.career-img{
+    width: 50%;
+    height: 100%;
+    background-image: url('https://cdn-media-1.freecodecamp.org/images/1*lJTLbbNTFhCNR5CkHKv9kQ.png');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size:cover;
+    
+}
+
+.introPage{
+    padding:300px 50px;
+    color:white;
+    margin:auto;
+    justify-items: center;
+}
+.career-card{
+    margin-top:50px;
+    padding:20px;
+    justify-content: space-around;
+    width: 300px;
+    height:60px;
+    background: #e2e2e2;
+    box-shadow: 1 1 1 1;
+}
+
+.career-card:hover{
+    background-color: #c7c7c7
+}
+
+.btn{
+    width:200px;
+    height:70px;
+    border-radius: 15px;
+    text-align: center;
+    padding:10px;
+}
+
+.btn:hover{
+    background: #212121;
+    cursor:pointer;
+    color:#e2e2e2
+}
