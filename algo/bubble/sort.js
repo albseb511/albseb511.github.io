@@ -11,21 +11,24 @@ async function _bubble(){
     for(let i=0;i<arr.length;i++){
         for(let j=0;j<arr.length-1-i;j++){
             var swap= []
-            cont[j].style.background = 'green'
+            await sleep(500)
+            cont[j+1].style.background = cont[j].style.background = 'green'
+            await sleep(500)
             if(arr[j]>arr[j+1])
             {
-                cont[j].style.background = 'yellow'
+                cont[j+1].style.background = cont[j].style.background = 'yellow'
                 swap = __swap(arr[j],arr[j+1])
                 console.log(swap)
                 arr[j] = swap[0]
                 arr[j+1] = swap[1]
                 console.log(swap,arr,j,i)
-                await sleep(1500)
+                await sleep(500)
                 _visualiseArray()
             }
             else null;
             
         }
     }
+    _visualiseArray()
 }
 
