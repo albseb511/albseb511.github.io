@@ -1,0 +1,115 @@
+body{
+    background: #0277BD;
+}
+
+.container-grid{
+    display: grid;
+    grid-template-columns: repeat(9,50px);
+    grid-template-rows: repeat(9,50px);
+    grid-gap: 2px;
+    margin:10% 0 0 25%;
+}
+
+.container-grid > div{
+    border:0px solid #212121;
+}
+
+.container-grid > div > button{
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    border: 0px;
+ 
+}
+
+.container-grid > div:nth-child(n+1){
+    background: #039BE5;
+}
+
+.container-grid > div:nth-child(odd){
+    background: #29B6F6;
+}
+
+.container-grid > div>button:nth-child(n+1){
+    background: transparent;
+}
+
+.container-grid > div:hover{
+    background: #E91E63;
+}
+
+.container-grid > div:nth-child(3n){
+    border-right-width: 2px;
+}
+
+.container-grid > div:nth-child(9n+1){
+    border-left-width: 2px;
+}
+
+.container-grid > div:nth-child(-n+9){
+    border-top-width: 2px;
+}
+.container-grid > div:nth-last-child(-n+10){
+    border-bottom-width: 2px;
+}
+
+.container-grid > div:nth-child(n+19):nth-child(-n+27){
+    border-bottom-width: 2px;
+}
+
+.container-grid > div:nth-child(n+46):nth-child(-n+54){
+    border-bottom-width: 2px;
+}
+
+.noEdit {
+    background: #9E9E9E !important;
+}
+
+/* input box */
+.container-grid > div:last-child{
+    display: none;
+    background: transparent;
+    margin-left: 120px;
+    border-radius: 10px;
+    border-width:0px
+}
+.input {
+    width:200px;
+    height: 200px;
+}
+
+.input > input{
+    width: 180px;
+    height:100px;
+    font-size: 100px;
+    text-align:center;    
+    margin-left: 5px;
+}
+
+#submit{
+    width: 150px;
+    height: 80px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 25px;
+    background: #4A148C;
+    color:#F5F5F5;
+}
+#submit:hover{
+    opacity: 0.8;
+}
+
+/* check answer button */
+
+.check-answer{
+    position: fixed;
+    margin-left:65%;
+    margin-top:20%;
+
+}
+
+.check-answer > button,.check-answer > p{
+    width: 100px;
+    height: 60px;
+    font-size: 20px;
+}
