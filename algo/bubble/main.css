@@ -1,0 +1,26 @@
+body{
+    background-image: linear-gradient(to right, #F00000, #DC281E);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding:10%;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+}
+.navbar > div{
+    flex:1
+}
+
+#array{
+    display: flex;
+    flex-direction: row;
+}
+
+#array > div {
+    background: blue;
+    border: 1px solid black;
+    margin:2px;
+    flex:1
+
+}
