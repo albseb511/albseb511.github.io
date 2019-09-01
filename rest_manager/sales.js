@@ -5,6 +5,6 @@ function showSales(){
     var total = 0
     for(let i=0;i<sales.length;i++)
         total+=sales[i].amt
-    var div =`<div>TOTAL SALES: ${total}</div>`
+    var div =`<div>TOTAL SALES: Rs. ${total}</div>`
     cont.innerHTML = div
 }

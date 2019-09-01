@@ -66,7 +66,7 @@ var menu = {
      price:'100',
      id:011},
      {category:'sandwich',
-     name:'Speacial Sandwich',
+     name:'Special Sandwich',
      price:'120',
      id:012},
 
