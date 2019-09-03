@@ -32,3 +32,24 @@ async function _bubble(){
     _visualiseArray()
 }
 
+
+
+async function _insertion(){
+    var cont = document.getElementsByClassName('array-item')
+    for(let i=0;i<arr.length;i++){
+        var pos 
+        for(let j=i;j<arr.length;j++){
+            await sleep(100)
+            cont[j+1].style.background = cont[j].style.background = 'green'
+            await sleep(100)
+            if(arr[i]>arr[i+1]){
+                pos = i+1
+            }
+        }
+        swap = _swap(arr[i],arr[pos])
+        arr[i] = swap[0]
+        arr[pos] = swap[0]
+    }
+    _visualiseArray()
+}
+
