@@ -86,6 +86,11 @@ async function _selectionSort(){
                 arr[pos] = temp
                 await sleep(speed)
                _visualiseArray()
+               cont[pos].style.background = 'white'
+               cont[i].style.background = 'white'
+               await sleep(2*speed)
+               cont[pos].style.background = 'blue'
+               cont[i].style.background = 'blue'
         }
     }
 
