@@ -60,4 +60,32 @@ async function _selectionSort(){
     }
     
 
+    async function _insertionSort(){
+        var cont = document.getElementsByClassName('array-item')
+           for(let i=0;i<arr.length;i++)
+            {
+                let min =arr[i]
+                let pos = i
+                await sleep(speed)
+                cont[i].style.background = 'white'
+                await sleep(speed)
+                for(let j=i+1;j<arr.length;j++){
+                    cont[j].style.background = 'green'
+                    await sleep(speed)
+                    if(min>arr[j]){
+                        min = arr[j]
+                        pos = j
+                        cont[j].style.background = 'yellow'
+                        await sleep(speed)
+                    }
+                }
+                cont[pos].style.background = 'white'
+                await sleep(speed)
+                let temp = arr[i]
+                arr[i] = arr[pos]
+                arr[pos] = temp
+                await sleep(speed)
+               _visualiseArray()
+        }
+    }
 

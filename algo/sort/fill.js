@@ -8,8 +8,9 @@ function _tabBar(){
                 <button onclick='_changeSettings()'>Save Changes</button>
                 <button onclick='_resetArray()'>Reset Array</button>
                 <br>
-                <button onclick='_bubble()'>Sort by By Bubble sort</button>
-                <button onclick='_selectionSort()'>Sort by By Insertion sort</button>
+                <button onclick='_bubble()'>Bubble sort</button>
+                <button onclick='_selectionSort()'>Insertion sort</button>
+                <button onclick='_insertionSort()'>Selection sort</button>
             <div></div>
             <div></div>`
     

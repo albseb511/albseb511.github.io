@@ -6,7 +6,7 @@
 # Sorting visualised
 
 [Sort](https://albseb511.github.io/algo/sort/)
-Contains Bubble and Selection sort
+Contains Bubble, Selection sort and Insertion sort
 
 # Sudoku JS 
 
