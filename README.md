@@ -3,9 +3,10 @@
 [Rest Manager](https://albseb511.github.io/rest_manager)
 
 
-# Bubble Sort visualised
+# Sorting visualised
 
-[Bubble Sort](https://albseb511.github.io/algo/bubble/)
+[Sort](https://albseb511.github.io/algo/sort/)
+Contains Bubble and Selection sort
 
 # Sudoku JS 
 
