@@ -1,4 +1,4 @@
-var size = 2
+var size = 10
 var min = 1
 var max = 20
 var arr = []
