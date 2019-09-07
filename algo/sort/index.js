@@ -1,6 +1,6 @@
 var size = 10
 var min = 1
-var max = 20
+var max = 50
 var arr = []
 var speed = 200
 
