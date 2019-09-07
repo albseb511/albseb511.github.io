@@ -94,3 +94,59 @@ async function _selectionSort(){
         }
     }
 
+     function __merge(left,right,array=[]){
+        // console.log('merging',left,right)
+        // await sleep(speed)
+        var i = 0
+        var j = 0
+        while(i<left.length&&j<right.length){
+            if(left[i]<right[j]){
+                array.push(left[i++])
+                // await sleep(speed)
+                // console.log(array,i-1)
+            }
+            else{
+                 array.push(right[j++])
+                //  console.log(array,j-1)
+            }
+        }
+        // await sleep(speed)
+        // console.log(`left ${left} -- right ${right} - rray ${array}`)
+        return array.concat(left.slice(i),right.slice(j))
+    }
+
+    function _mergeSort(array){
+        // alert('sorry')
+        _visualiseArray()
+        // alert('sorry')
+        if(array.length<2)
+            return array
+        // console.log('merge sort start')
+        var cont = document.getElementsByClassName('array-item')
+        let i = 0;
+        let m = array.length%2===0?array.length/2:(array.length-1)/2;
+        let k = array.length - 1;
+        
+        const left = array.filter((a,i)=>i<m?a:null)
+        const right = array.filter((a,i)=>i>=m?a:null)
+
+        // console.log(left,right)
+        // alert('sorry')
+        _visualiseArray()
+        // alert('sorry')
+        // console.log('recursion',array)
+        return __merge(_mergeSort(left),_mergeSort(right))
+        
+        // while
+        // console.log('array is',arr)
+    }
+
+    function callMerge(){
+        // console.log('before',arr)
+        arr = _mergeSort(arr)
+        // console.log('final',arr)
+        // alert('sorry')
+        _visualiseArray()
+
+        
+    }

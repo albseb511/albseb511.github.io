@@ -11,6 +11,7 @@ function _tabBar(){
                 <button onclick='_bubble()'>Bubble sort</button>
                 <button onclick='_selectionSort()'>Insertion sort</button>
                 <button onclick='_insertionSort()'>Selection sort</button>
+                <button onclick='callMerge()'>Merge sort</button>
             <div></div>
             <div></div>`
     
