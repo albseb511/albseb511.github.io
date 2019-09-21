@@ -1,0 +1,24 @@
+.container{
+    height:100%
+}
+
+.inboxItems{
+    height:30px;
+    padding-left: 30px;
+}
+.inboxItems:hover{
+    background: lightgray;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.inboxContainer{
+    height: 200px;
+    overflow: scroll;
+    margin-bottom:20px
+}
+
+
+.compose:hover{
+    cursor: pointer;
+}

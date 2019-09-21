@@ -1,0 +1,33 @@
+.mailBody{
+    height: 800px;
+    overflow: scroll;
+}
+
+.mailRow{
+    display: flex;
+    height: 30px;
+    overflow: hidden;
+    margin:10px
+}
+.mailRow:hover{
+    background: lightgray
+}
+
+.mailRow > div:nth-child(-n+3){
+    flex:1;
+    
+}
+
+.mailRow > div:nth-child(4){
+    flex:4;
+    
+}
+
+.mailRow > div:nth-child(5){
+    flex:15;
+    
+}
+.mailRow > div:last-child(){
+    flex:4;
+    
+}
