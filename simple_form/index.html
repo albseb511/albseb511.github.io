@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>STUDENTS</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+    <!-- Form -->
+    <div id="cont">
+        <div id="form">
+            <h3>Enter Student details</h3>
+            <div  class="flex">
+                <div>Name:</div> <input type="text" id="name" placeholder="name">
+            </div>
+            <div  class="flex">
+                <div>GRADE</div>
+                <select id="grade" >
+                    <option value="12" selected>12</option>    
+                    <option value="11">11</option>    
+                    <option value="10">10</option>    
+                    <option value="9">9</option>    
+                    <option value="8">8</option>    
+                    <option value="7">7</option>    
+                </select>
+            </div>
+            <h3>Enter Marks</h3>
+            <div >
+                <div class="flex">
+                    <div>Science:</div> <input type="text" id="sci" placeholder="Marks">
+                </div>
+                <div class="flex">
+                    <div>Mathematics:</div> <input type="text" id="math" placeholder="Marks">
+                </div>
+                <div class="flex">
+                    <div>English:</div> <input type="text" id="eng" placeholder="Marks">
+                </div>
+                <div class="flex">
+                    <div>History:</div> <input type="text" id="hist" placeholder="Marks">
+                </div>
+                <div class="flex">
+                    <div>Geography:</div> <input type="text" id="geo" placeholder="Marks">
+                </div>
+            </div>
+
+            <button id='submit' >ADD NEW</button>
+        </div>
+        <!-- end of form -->
+        <!-- start of table -->
+        <div id="table">
+                <div class="flex w-300">
+                    <div>GRADE</div>
+                    <select id="gradeTable" placeholder="GRADE">
+                        <option value="12">12</option>    
+                        <option value="11">11</option>    
+                        <option value="10">10</option>    
+                        <option value="9">9</option>    
+                        <option value="8">8</option>    
+                        <option value="7">7</option>    
+                    </select>
+                </div>
+                <div id="heading" class="flex sm-w-50">
+                    <div>Name</div>
+                    <div>Science</div>
+                    <div>Mathematics</div>
+                    <div>English</div>
+                    <div>History</div>
+                    <div>Geography</div>
+                    <div>Average</div>
+                    <div>Total</div>
+                </div>
+                <div id="result">
+
+                </div>
+        </div>
+        <!-- end of table -->
+    </div>
+</body>
+<script type="text/javascript" src="index.js"></script>
+</html>
