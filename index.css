@@ -1,0 +1,13 @@
+.icons a{
+    color: white
+}
+
+@media all and (max-width:768px){
+    .footer-left{
+        display: none;
+    }
+    #main-content{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
