@@ -2399,11 +2399,6 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   }
 }
 
-<span class="hljs-keyword">const</span> mapStateToProps = <span class="hljs-function"><span class="hljs-params">state</span> =></span> ({
-  <span class="hljs-attr">token</span>: state.authReducer.token
-});
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(mapStateToProps)(CreateChallenge);
 
 </code></pre>
 </section><section class="slide"><h2>Hooks at a Glance</h2>
@@ -2480,13 +2475,13 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 </section><section class="slide"><h2>TIP</h2>
 <p>Declaring state variables as a pair of <code>[something, setSomething]</code> is recommended</p>
 <p><a href="https://reactjs.org/docs/hooks-state.html">Docs</a></p>
-</section><section class="slide"><h2>useEffect Hook</h2>
+</section><section class="slide"><h2>use-Effect Hook</h2>
 <p>You can perform data fetching, subscriptions, or manually changing the DOM from React components before.</p>
 <p>We call these operations “side effects” (or “effects” for short) because they can affect other components and can’t be done during rendering.</p>
 <p>The Effect Hook, useEffect, adds the ability to perform side effects from a function component. </p>
 <p>It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount in React classes, but unified into a single API. ( We will have a comparison later )</p>
 <p>You can also think of it as an after render method.</p>
-</section><section class="slide"><h2>useEffect hook</h2>
+</section><section class="slide"><h2>use-Effect hook</h2>
 <pre><code class="hljs language-jsx">
 <span class="hljs-keyword">import</span> React, { useState, useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params"></span>) </span>{
@@ -2510,7 +2505,7 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 
 </code></pre>
-</section><section class="slide"><h2>useEffect</h2>
+</section><section class="slide"><h2>use-Effect hook</h2>
 <p>When you call useEffect, you’re telling React to run your “effect” function after flushing changes to the DOM. </p>
 <p>Effects are declared inside the component so they have access to its props and state. </p>
 <p>By default, React runs the effects after every render — including the first render. </p>
@@ -2526,6 +2521,15 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 </code></pre>
 <p><a href="https://reactjs.org/docs/hooks-effect.html">Docs</a></p>
+</section><section class="slide"><h2>updates</h2>
+<p>Both useState and useReducer Hooks bail out of updates if the next value is the same as the previous one. Mutating state in place and calling setState will not cause a re-render.</p>
+<p>Normally, you shouldn’t mutate local state in React. However, as an escape hatch, you can use an incrementing counter to force a re-render even if the state has not changed:</p>
+<pre><code class="hljs language-jsx">  <span class="hljs-keyword">const</span> [ignored, forceUpdate] = useState(<span class="hljs-function"><span class="hljs-params">x</span> =></span> x + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleClick</span>(<span class="hljs-params"></span>) </span>{
+    forceUpdate();
+  }
+</code></pre>
 </section><section class="slide"><h2>Rules of Hooks</h2>
 <p>Hooks are JavaScript functions, but they impose two additional rules:</p>
 <ul>
@@ -2533,7 +2537,216 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 <li>Only call Hooks from React function components. Don’t call Hooks from regular JavaScript functions. </li>
 <li>There is just one other valid place to call Hooks — your own custom Hooks. We’ll learn about them later</li>
 </ul>
-<p><a href="https://reactjs.org/docs/hooks-rules.html">Docs</a></p></section></section></div>
+<p><a href="https://reactjs.org/docs/hooks-rules.html">Docs</a></p>
+</section></section><section class="slides-section"><section class="slide"><h1>useState API</h1>
+<p><code>const [state, setState] = useState(initialState);</code></p>
+<p>Returns a stateful value, and a function to update it.</p>
+<p>During the initial render, the returned state (state) is the same as the value passed as the first argument (initialState).</p>
+</section><section class="slide"><h2>seState</h2>
+<p>The setState function is used to update the state. It accepts a new state value and enqueues a re-render of the component.</p>
+<p><code>setState(newState);</code></p>
+<p>During subsequent re-renders, the first value returned by useState will always be the most recent state after applying updates.</p>
+</section><section class="slide"><h2>functional updates</h2>
+<p>If the new state is computed using the previous state, you can pass a function to setState. The function will receive the previous value, and return an updated value. Here’s an example of a counter component that uses both forms of setState:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">{initialCount}</span>) </span>{
+  <span class="hljs-keyword">const</span> [count, setCount] = useState(initialCount);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;></span>
+      Count: {count}
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(initialCount)}>Reset<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(prevCount => prevCount - 1)}>-<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(prevCount => prevCount + 1)}>+<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
+    <span class="hljs-tag">&#x3C;/></span></span>
+  );
+}
+</code></pre>
+<p>The ”+” and ”-” buttons use the functional form, because the updated value is based on the previous value. But the “Reset” button uses the normal form, because it always sets the count back to the initial value.</p>
+<p>If your update function returns the exact same value as the current state, the subsequent rerender will be skipped completely.</p>
+</section><section class="slide"><h2>Notes</h2>
+<p>Unlike the <code>this.setState</code> method found in class components, <code>useState</code> does not automatically merge update objects. You can replicate this behavior by combining the function updater form with object spread syntax:</p>
+<pre><code class="hljs language-jsx">setState(<span class="hljs-function"><span class="hljs-params">prevState</span> =></span> {
+  <span class="hljs-comment">// Object.assign would also work</span>
+  <span class="hljs-keyword">return</span> {...prevState, ...updatedValues};
+});
+</code></pre>
+</section><section class="slide"><h2>React will stop the re-rendering process if</h2>
+<p>If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects. (React uses the Object.is comparison algorithm.)</p>
+<p>Note that React may still need to render that specific component again before bailing out. That shouldn’t be a concern because React won’t unnecessarily go “deeper” into the tree.</p>
+</section><section class="slide"><h2>Examples</h2>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> [formState, setFormState] = useState({})
+
+<span class="hljs-keyword">return</span>(
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit}</span>></span>
+    
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">form</span>></span></span>
+)
+
+</code></pre>
+</section></section><section class="slides-section"><section class="slide"><h1>useEffect API</h1>
+<p><code>useEffect(didUpdateCallback);</code></p>
+<p>Accepts a function that contains imperative, possibly effectful code.</p>
+<p>Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component (referred to as React’s render phase). Doing so will lead to confusing bugs and inconsistencies in the UI.</p>
+<p>Instead, use useEffect. The function passed to useEffect will run after the render is committed to the screen. Think of effects as an escape hatch from React’s purely functional world into the imperative world.</p>
+<p>By default, effects run after every completed render, but you can choose to fire them only when certain values have changed.</p>
+</section><section class="slide"><h2>Cleanup function in useEffect</h2>
+<p>Often, effects create resources that need to be cleaned up before the component leaves the screen, such as a subscription or timer ID. To do this, the function passed to useEffect may return a clean-up function. For example, to create a subscription:</p>
+<pre><code class="hljs language-jsx">
+useEffect(<span class="hljs-function">()=></span>{
+    startTimer()
+    <span class="hljs-keyword">return</span> <span class="hljs-function">() =></span> {
+        stopTimer()
+    }
+},[])
+
+useEffect(<span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> subscription = props.source.subscribe();
+  <span class="hljs-keyword">return</span> <span class="hljs-function">() =></span> {
+    <span class="hljs-comment">// Clean up the subscription</span>
+    subscription.unsubscribe();
+  };
+});
+</code></pre>
+<p>The clean-up function runs before the component is removed from the UI to prevent memory leaks. Additionally, if a component renders multiple times (as they typically do), the previous effect is cleaned up before executing the next effect. In our example, this means a new subscription is created on every update. To avoid firing an effect on every update, refer to the next section.</p>
+</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (1/4)</h2>
+<p>Generally speaking, no</p>
+<pre><code class="hljs language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params">{ someProp }</span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(someProp);
+  }
+
+  useEffect(<span class="hljs-function">() =></span> {
+    doSomething();
+  }, []); <span class="hljs-comment">// 🔴 This is not safe (it calls `doSomething` which uses `someProp`)</span>
+}
+</code></pre>
+</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (2/4)</h2>
+<p>It’s difficult to remember which props or state are used by functions outside of the effect. This is why usually you’ll want to declare functions needed by an effect inside of it. Then it’s easy to see what values from the component scope that effect depends on:</p>
+<pre><code class="hljs language-jsx">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params">{ someProp }</span>) </span>{
+  useEffect(<span class="hljs-function">() =></span> {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-built_in">console</span>.log(someProp);
+    }
+
+    doSomething();
+  }, [someProp]); <span class="hljs-comment">// ✅ OK (our effect only uses `someProp`)</span>
+}
+</code></pre>
+<p>If after that we still don’t use any values from the component scope, it’s safe to specify []:</p>
+</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (3/4)</h2>
+<pre><code class="hljs language-jsx">
+useEffect(<span class="hljs-function">() =></span> {
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello'</span>);
+  }
+
+  doSomething();
+}, []); <span class="hljs-comment">// ✅ OK in this example because we don't use *any* values from component scope</span>
+</code></pre>
+</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (4/4)</h2>
+<p>It is only safe to omit a function from the dependency list if nothing in it (or the functions called by it) references props, state, or values derived from them. This example has a bug:</p>
+<pre><code class="hljs language-jsx">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ProductPage</span>(<span class="hljs-params">{ productId }</span>) </span>{
+  <span class="hljs-keyword">const</span> [product, setProduct] = useState(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchProduct</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'http://myapi/product/'</span> + productId); <span class="hljs-comment">// Uses productId prop</span>
+    <span class="hljs-keyword">const</span> json = <span class="hljs-keyword">await</span> response.json();
+    setProduct(json);
+  }
+
+  useEffect(<span class="hljs-function">() =></span> {
+    fetchProduct();
+  }, []); <span class="hljs-comment">// 🔴 Invalid because `fetchProduct` uses `productId`</span>
+  <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>The recommended fix is to move that function inside of your effect. That makes it easy to see which props or state your effect uses, and to ensure they’re all declared</p>
+</section></section><section class="slides-section"><section class="slide"><h1><a href="https://reactjs.org/docs/state-and-lifecycle.html"><code>State and Lifecycle</code></a></h1>
+<p>Any react component that extends <code>React.Component</code> almost like a living organism will go through the following phases in its lifetime:</p>
+<ol>
+<li><code>Mounting</code></li>
+<li><code>Updating</code></li>
+<li><code>Unmounting</code></li>
+</ol>
+<p>Lets go though each phase in-depth:</p>
+</section><section class="slide"><h2>NOTE:</h2>
+<p>React documentation is will update by early 2021 with more hooks oriented documentation.</p>
+<p>Lifecycle diagrams on the react docs are oriented to class components, till its updated we will refer to the community maintained docs for reference</p>
+<p><a href="https://reactwithhooks.netlify.app/">https://reactwithhooks.netlify.app/</a></p>
+</section><section class="slide"><h2><code>Mounting</code>:</h2>
+<p>When a component is mounted onto or inserted into the DOM for the first time, we call this the mounting phase.</p>
+</section><section class="slide"><h2><code>Updating</code>:</h2>
+<p>After the react component has been mounted, it can then recieve new updates through new props being sent by parents or from updating the state.</p>
+<p>An update can be triggered by </p>
+<ul>
+<li>new props</li>
+<li>state is updated</li>
+</ul>
+</section><section class="slide"><h2><code>Unmounting</code></h2>
+<p>When a react component is unmounted, sometimes it is necessary to cleanup functions,
+for example, </p>
+<ul>
+<li>setTimeout / setInterval etc does not get garbage collected </li>
+<li>to unsubsribe to some events that you are listening to.</li>
+<li>to cancel some network request</li>
+</ul>
+<p>Each useEffect accepts a return statement that is a function, it will be invoked in the order of declaration of the useEffects</p>
+</section><section class="slide"><h2>If that was too confusing, here is a simple <code>graphic</code>:</h2>
+<p><a href="https://github.com/albseb511/albseb511.github.io/blob/master/notes/hooks/chart.png?raw=true">hooks-lcm-diagram</a></p>
+<p><a href="https://wavez.github.io/react-hooks-lifecycle/">react-hooks-lifecycle-methods-diagram</a></p>
+<p><a href="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">react-class-lifecycle-methods-diagram/</a></p>
+</section></section><section class="slides-section"><section class="slide"><h1>Exercises</h1>
+</section><section class="slide"><h2>counter application</h2>
+<ul>
+<li>create an app with inital value, and have an increment and decrement counter</li>
+</ul>
+</section><section class="slide"><h2>countdown timer (I)</h2>
+<ul>
+<li>input a time from input box</li>
+<li>start a countdown timer</li>
+<li>on reaching 0, stop the timer</li>
+<li>clear timer on unmount</li>
+</ul>
+</section><section class="slide"><h2>TODO APP API MOCKER (WE)</h2>
+<ul>
+<li>create a todo app with use state hook</li>
+<li>use mock server</li>
+<li>toggle status, delete item</li>
+<li>get data</li>
+<li>delete data</li>
+<li>onmount user fetch data</li>
+<li>handle errors</li>
+<li>use a status</li>
+</ul>
+</section><section class="slide"><h2>Exercise Todo list with subtasks (YOU)</h2>
+<ul>
+<li>a user should be able to create a new task<ul>
+<li>title</li>
+<li>due date</li>
+<li>a user can add new subtasks  <ul>
+<li>each subtask can have a status that a user can update</li>
+</ul></li>
+</ul></li>
+<li>lift state up wherever required</li>
+<li>separate into smaller components</li>
+</ul>
+<pre><code class="hljs language-markdown"> <span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span>
+| TASK TITLE         |
+|<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span>| 
+<span class="hljs-bullet">  -</span> subtask 1
+<span class="hljs-bullet">  -</span> subtask 2
+<span class="hljs-bullet">  -</span> subtask 3
+<span class="hljs-bullet">  +</span> <span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-emphasis">_ 
+  ADD A NEW SUBTASK
+
+ <span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span>
+|    LEARN REACT     |
+|<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span>|
+|  x state management|
+|  x hooks           |
+|<span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span><span class="hljs-strong">____</span>|
+</span></code></pre></section></section></div>
     </div>
     <script>/*!
  * reveal.js
