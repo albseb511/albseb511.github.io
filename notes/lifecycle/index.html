@@ -2218,18 +2218,21 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 </code></pre>
 <p><a href="https://codesandbox.io/s/qidhd">Codesandbox example</a></p>
 <p><a href="https://codesandbox.io/s/component-lifecycles-crew8">codesandbox example 2</a></p>
-</section><section class="slide"><h2>An great use-case for <code>componentWillUnmount</code> is the following example.</h2>
+</section><section class="slide"><h2>A great use-case for <code>componentWillUnmount</code> is the following example.</h2>
 <p>Here's the right way to do this:</p>
 <p><a href="https://codepen.io/peterbe/pen/LNxmRp?editors=0010">https://codepen.io/peterbe/pen/LNxmRp?editors=0010</a></p>
 <p>Here's the wrong way to do this:</p>
 <p><a href="https://codepen.io/peterbe/pen/VaPXNL?editors=1010">https://codepen.io/peterbe/pen/VaPXNL?editors=1010</a></p>
+</section><section class="slide"><h2>Lifecycle methods</h2>
 <pre><code class="hljs language-javascript">
+
 <span class="hljs-function"><span class="hljs-title">componentDidMount</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-comment">// Called immediately after a component is mounted. Setting state here will trigger re-rendering.</span>
 }
 
-
-<span class="hljs-function"><span class="hljs-title">shouldComponentUpdate</span>(<span class="hljs-params">nextProps, nextState</span>)</span> {
+</code></pre>
+</section><section class="slide"><h2>shouldComponentUpdate</h2>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-title">shouldComponentUpdate</span>(<span class="hljs-params">nextProps, nextState</span>)</span> {
     <span class="hljs-comment">//  * Called to determine whether the change in props and state should trigger a re-render.</span>
     <span class="hljs-comment">//  * `Component` always returns true.</span>
     <span class="hljs-comment">//  * `PureComponent` implements a shallow comparison on props and state and returns true if any</span>
@@ -2239,66 +2242,52 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
     <span class="hljs-comment">//  * and `componentDidUpdate` will not be called.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>componentDidUpdate</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentDidUpdate</span>(<span class="hljs-params">prevProps, prevState</span>)</span> {
     <span class="hljs-comment">// Called immediately after updating occurs. Not called for the initial render.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>componentWillUnmount</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentWillUnmount</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-comment">// Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as</span>
     <span class="hljs-comment">// cancelled network requests, or cleaning up any DOM elements created in `componentDidMount`.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>componentDidCatch</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentDidCatch</span>(<span class="hljs-params">error, errorInfo</span>)</span>{
     <span class="hljs-comment">// Catches exceptions generated in descendant components. Unhandled exceptions will cause</span>
     <span class="hljs-comment">// the entire component tree to unmount.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>getDerivedStateDromProps</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getDerivedStateDromProps</span>(<span class="hljs-params">nextProps, prevState</span>)</span>{
     <span class="hljs-comment">//  Returns an update to a component's state based on its new props and old state.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>getDerivedStateFromError</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getDerivedStateFromError</span>(<span class="hljs-params">error</span>)</span>{
     <span class="hljs-comment">// This lifecycle is invoked after an error has been thrown by a descendant component.</span>
     <span class="hljs-comment">//  It receives the error that was thrown as a parameter and should return a value to update state.</span>
 }
 
+</code></pre>
+</section><section class="slide"><h2>getSnapshotBeforeUpdate</h2>
+<pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getSnapshotBeforeUpdate</span>(<span class="hljs-params">prevProps, prevState</span>)</span>{
     <span class="hljs-comment">// Runs before React applies the result of `render` to the document, and</span>
     <span class="hljs-comment">// returns an object to be given to componentDidUpdate. Useful for saving</span>
     <span class="hljs-comment">// things such as scroll position before `render` causes changes to it.</span>
 }
-
-DEPRECATED_LIFECYCLES
-
-<span class="hljs-function"><span class="hljs-title">componentWillMount</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-comment">//  * Called immediately before mounting occurs, and before `Component#render`.</span>
-    <span class="hljs-comment">//  * Avoid introducing any side-effects or subscriptions in this method.</span>
-    <span class="hljs-comment">//  *</span>
-    <span class="hljs-comment">//  * Note: the presence of getSnapshotBeforeUpdate or getDerivedStateFromProps</span>
-    <span class="hljs-comment">//  * prevents this from being invoked.</span>
-}
-<span class="hljs-function"><span class="hljs-title">componentWillReceiveProps</span>(<span class="hljs-params">nextProps</span>)</span> {
-    <span class="hljs-comment">// Called when the component may be receiving new props.</span>
-    <span class="hljs-comment">//      * React may call this even if props have not changed, so be sure to compare new and existing</span>
-    <span class="hljs-comment">//      * props if you only want to handle changes.</span>
-    <span class="hljs-comment">//      *</span>
-    <span class="hljs-comment">//      * Calling `Component#setState` generally does not trigger this method.</span>
-    <span class="hljs-comment">//      *</span>
-    <span class="hljs-comment">//      * Note: the presence of getSnapshotBeforeUpdate or getDerivedStateFromProps</span>
-    <span class="hljs-comment">//      * prevents this from being invoked.</span>
-}
-
-<span class="hljs-function"><span class="hljs-title">componentWillUpdate</span>(<span class="hljs-params">nextProps, nextState</span>)</span> {
-    <span class="hljs-comment">//  * Called immediately before rendering when new props or state is received. Not called for the initial render.</span>
-    <span class="hljs-comment">//      *</span>
-    <span class="hljs-comment">//      * Note: You cannot call `Component#setState` here.</span>
-    <span class="hljs-comment">//      *</span>
-    <span class="hljs-comment">//      * This method will not stop working in React 17.</span>
-    <span class="hljs-comment">//      *</span>
-    <span class="hljs-comment">//      * Note: the presence of getSnapshotBeforeUpdate or getDerivedStateFromProps</span>
-    <span class="hljs-comment">//      * prevents this from being invoked.</span>
-}
-
 </code></pre></section></section></div>
     </div>
     <script>/*!
