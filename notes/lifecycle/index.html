@@ -2231,7 +2231,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 }
 
 </code></pre>
-</section><section class="slide"><h2>shouldComponentUpdate</h2>
+</section><section class="slide"><h2><code>shouldComponentUpdate</code></h2>
 <pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-title">shouldComponentUpdate</span>(<span class="hljs-params">nextProps, nextState</span>)</span> {
     <span class="hljs-comment">//  * Called to determine whether the change in props and state should trigger a re-render.</span>
     <span class="hljs-comment">//  * `Component` always returns true.</span>
@@ -2243,14 +2243,14 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 }
 
 </code></pre>
-</section><section class="slide"><h2>componentDidUpdate</h2>
+</section><section class="slide"><h2><code>componentDidUpdate</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentDidUpdate</span>(<span class="hljs-params">prevProps, prevState</span>)</span> {
     <span class="hljs-comment">// Called immediately after updating occurs. Not called for the initial render.</span>
 }
 
 </code></pre>
-</section><section class="slide"><h2>componentWillUnmount</h2>
+</section><section class="slide"><h2><code>componentWillUnmount</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentWillUnmount</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-comment">// Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as</span>
@@ -2258,7 +2258,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 }
 
 </code></pre>
-</section><section class="slide"><h2>componentDidCatch</h2>
+</section><section class="slide"><h2><code>componentDidCatch</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">componentDidCatch</span>(<span class="hljs-params">error, errorInfo</span>)</span>{
     <span class="hljs-comment">// Catches exceptions generated in descendant components. Unhandled exceptions will cause</span>
@@ -2266,14 +2266,14 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 }
 
 </code></pre>
-</section><section class="slide"><h2>getDerivedStateDromProps</h2>
+</section><section class="slide"><h2><code>getDerivedStateDromProps</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getDerivedStateDromProps</span>(<span class="hljs-params">nextProps, prevState</span>)</span>{
     <span class="hljs-comment">//  Returns an update to a component's state based on its new props and old state.</span>
 }
 
 </code></pre>
-</section><section class="slide"><h2>getDerivedStateFromError</h2>
+</section><section class="slide"><h2><code>getDerivedStateFromError</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getDerivedStateFromError</span>(<span class="hljs-params">error</span>)</span>{
     <span class="hljs-comment">// This lifecycle is invoked after an error has been thrown by a descendant component.</span>
@@ -2281,7 +2281,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs
 }
 
 </code></pre>
-</section><section class="slide"><h2>getSnapshotBeforeUpdate</h2>
+</section><section class="slide"><h2><code>getSnapshotBeforeUpdate</code></h2>
 <pre><code class="hljs language-javascript">
 <span class="hljs-function"><span class="hljs-title">getSnapshotBeforeUpdate</span>(<span class="hljs-params">prevProps, prevState</span>)</span>{
     <span class="hljs-comment">// Runs before React applies the result of `render` to the document, and</span>
