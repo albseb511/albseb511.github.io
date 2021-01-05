@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hooks</title>
+    <title>Events Forms useRef</title>
     <style>/*!
  * reveal.js
  * http://revealjs.com
@@ -2038,664 +2038,363 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   </head>
   <body>
     <div class="reveal">
-      <div class="slides slides"><section class="slides-section"><section class="slide"><h1>Hooks</h1>
-<p>Introduced in 2018 for state management, Hooks solve a wide variety of seemingly unconnected problems in React. </p>
-</section><section class="slide"><h2>It’s hard to reuse stateful logic between components</h2>
-<p>With Hooks, you can extract stateful logic from a component so it can be tested independently and reused. Hooks allow you to reuse stateful logic without changing your component hierarchy. This makes it easy to share Hooks among many components or with the community.</p>
-<p>This can be done with custom Hook ( we will discuss this in another class )</p>
-</section><section class="slide"><h2>Complex components become hard to understand</h2>
-<p>Hooks let you split one component into smaller functions based on what pieces are related (such as setting up a subscription or fetching data), rather than forcing a split based on lifecycle methods.</p>
-<p>This can be done with useEffect Hook</p>
-</section><section class="slide"><h2>Classes confuse both people and machines</h2>
-<p>Hooks let you use more of React’s features without classes. Conceptually, React components have always been closer to functions. Hooks embrace functions, but without sacrificing the practical spirit of React. Hooks provide access to imperative escape hatches and don’t require you to learn complex functional or reactive programming techniques.</p>
-<p>Note: <code>There are no plans to remove classes from React.</code></p>
-<p>Read more <a href="https://reactjs.org/docs/hooks-intro.html">Hooks Intro</a></p>
-</section><section class="slide"><h2>an example of a very long confusing class component written</h2>
-<pre><code class="hljs language-jsx"><span class="hljs-comment">/* eslint-disable no-console */</span>
-<span class="hljs-comment">/* eslint-disable consistent-return */</span>
-<span class="hljs-comment">/* eslint-disable camelcase */</span>
-<span class="hljs-comment">/* eslint-disable no-unused-vars */</span>
-<span class="hljs-comment">/* eslint-disable react/prop-types */</span>
-<span class="hljs-comment">/* eslint-disable no-plusplus */</span>
-<span class="hljs-comment">/* eslint-disable react/destructuring-assignment */</span>
-<span class="hljs-comment">/* eslint-disable no-restricted-syntax */</span>
-<span class="hljs-comment">/* eslint-disable no-alert */</span>
-<span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
-<span class="hljs-keyword">import</span> { connect } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-redux"</span>;
-<span class="hljs-keyword">import</span> ChallengeDetails <span class="hljs-keyword">from</span> <span class="hljs-string">"../../../../components/ChallengeDetails/ChallengeDetails"</span>;
-<span class="hljs-keyword">import</span> ChallengeSettings <span class="hljs-keyword">from</span> <span class="hljs-string">"../../../../components/ChallengeSettings/ChallengeSettings"</span>;
-<span class="hljs-keyword">import</span> AddTestCases <span class="hljs-keyword">from</span> <span class="hljs-string">"../../../../components/AddTestCases/AddTestCases"</span>;
-<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">"../../../../utils/axiosInterceptor"</span>;
-<span class="hljs-keyword">import</span> { toast } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-toastify"</span>;
+      <div class="slides slides"><section class="slides-section"><section class="slide"><h2>Event handling in React</h2>
+<p>State is an internally managed configuration for any component.
+Let us take this example of creating a simple timer.</p>
+<p><a href="https://codesandbox.io/s/47wzj">Codesanbox State Example</a></p>
+<p><a href="https://codesandbox.io/s/zdcf9">Event Handling Example</a></p>
+<p>Inside a loop, it is common to want to pass an extra parameter to an event handler. For example, if id is the row ID, either of the following would work:</p>
+<pre><code class="hljs language-javascript">&#x3C;button onClick={<span class="hljs-function">() =></span> deleteRow(id)}>Delete Row&#x3C;/button>
+<span class="hljs-comment">// if you want the event also to be passed</span>
+<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{(e)</span> =></span> deleteRow(id, e)}>Delete Row<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span></span>
+</code></pre>
+<p>In both cases, the e aaxrgument representing the React event will be passed as a second argument after the ID. With an arrow function, we have to pass it explicitly, but with bind any further arguments are automatically forwarded.</p>
+<p><a href="https://reactjs.org/docs/handling-events.html">Handling Events</a></p>
+</section><section class="slide"><h2>Handling multiple input tags with a single function</h2>
+<p>There are times that you have many input tags and you want to write a single function to handle it</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> initState = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-attr">address</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-attr">email</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">""</span>
+}
 
-<span class="hljs-keyword">const</span> initialState = {
-  <span class="hljs-attr">detailsTab</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">settingsTab</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">testCasesTab</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">challenge_name</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">difficulty</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">description</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">problem_statement</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">input_format</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">constraints</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">output_format</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">sample_input</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">sample_output</span>: <span class="hljs-string">""</span>,
-  <span class="hljs-attr">settings</span>: [],
-  <span class="hljs-attr">test_cases</span>: [],
-  <span class="hljs-attr">test_input</span>: [],
-  <span class="hljs-attr">test_output</span>: [],
-  <span class="hljs-attr">resMessage</span>: <span class="hljs-string">""</span>
-};
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateChallenge</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> {
-    <span class="hljs-built_in">super</span>(props);
-    <span class="hljs-built_in">this</span>.state = { ...initialState };
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">const</span> [state, setState] = React.useState(initState)
+  <span class="hljs-keyword">const</span> handleChange = <span class="hljs-function"><span class="hljs-params">e</span> =></span> {
+    <span class="hljs-keyword">const</span> {name, value} = e.target
+    setState( { ...state, [name]: value} )
   }
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{state.name}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"address"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"address"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{state.address}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{state.email}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{state.password}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
+  )
 
-  <span class="hljs-function"><span class="hljs-title">componentDidMount</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-keyword">const</span> data = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">localStorage</span>.getItem(<span class="hljs-string">"create_challenge"</span>)) || {
-      ...initialState
-    };
-    <span class="hljs-built_in">this</span>.setState({ ...data });
+}
+
+</code></pre>
+<p><strong>Example:</strong>
+<a href="https://codepen.io/albseb511/pen/yLavwxj?editors=1010">https://codepen.io/albseb511/pen/yLavwxj?editors=1010</a></p>
+</section><section class="slide"><h2><code>Conditional Rendering</code>:</h2>
+<p>Often you will want to render components based on a condition. This can easily be done in react by using a conditional <code>if</code> within the render function.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">if</span>(condition){
+      <span class="hljs-keyword">return</span>(
+          <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">Component</span> <span class="hljs-attr">if</span> <span class="hljs-attr">true</span> /></span></span>
+      )
+    }
+    <span class="hljs-keyword">else</span> 
+      <span class="hljs-keyword">return</span>( <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">Component</span> <span class="hljs-attr">if</span> <span class="hljs-attr">false</span>></span>)
+}
+
+</span></code></pre>
+</section><section class="slide"><h2><code>Conditional rendering</code></h2>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">//Simple button that changes from login to logout when it is clicked!</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">const</span> [isLoggedIn, setIsLoggedIn] = React.useState(<span class="hljs-literal">false</span>)
+  
+  handleClick = <span class="hljs-function">() =></span>{
+   setIsLoggedIn(<span class="hljs-function"><span class="hljs-params">prev</span>=></span>!prev); 
+  <span class="hljs-comment">//  or </span>
+   setIsLoggedin(!isLoggedIn)
   }
-
-  handleDetailsChange = <span class="hljs-function"><span class="hljs-params">e</span> =></span> {
-    <span class="hljs-built_in">this</span>.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      <span class="hljs-built_in">this</span>.saveToLocalStorage
-    );
-  };
-
-  saveToLocalStorage = <span class="hljs-function">() =></span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"saving"</span>);
-    <span class="hljs-keyword">const</span> data = {...this.state};
-    <span class="hljs-keyword">delete</span> data.test_cases;
-    <span class="hljs-keyword">delete</span> data.test_input;
-    <span class="hljs-keyword">delete</span> data.test_output;
-    <span class="hljs-built_in">console</span>.log(data);
-
-    <span class="hljs-built_in">localStorage</span>.setItem(<span class="hljs-string">"create_challenge"</span>, <span class="hljs-built_in">JSON</span>.stringify(data));
-  };
-
-  addTestCase = <span class="hljs-function"><span class="hljs-params">testCase</span> =></span> {
-    <span class="hljs-keyword">if</span> (
-      testCase.testCaseName &#x26;&#x26;
-      testCase.visibility &#x26;&#x26;
-      testCase.inputFile &#x26;&#x26;
-      testCase.strength &#x26;&#x26;
-      testCase.outputFile
-    ) {
-      <span class="hljs-keyword">if</span> (
-        <span class="hljs-built_in">this</span>.state.test_cases.find(
-          <span class="hljs-function"><span class="hljs-params">ele</span> =></span> ele.testCaseName === testCase.testCaseName
-        )
-      ) {
-        alert(<span class="hljs-string">"test case name already exists"</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-      }
-      <span class="hljs-built_in">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =></span> {
-        <span class="hljs-keyword">return</span> {
-          <span class="hljs-attr">test_cases</span>: [...state.test_cases, testCase],
-          <span class="hljs-attr">test_input</span>: [...state.test_input, testCase.inputFile],
-          <span class="hljs-attr">test_output</span>: [...state.test_output, testCase.outputFile]
-        };
-      });
-    } <span class="hljs-keyword">else</span> {
-      alert(<span class="hljs-string">"All fields are mandatory"</span>);
+  
+    <span class="hljs-keyword">if</span>(isLoggedIn){
+      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span> = <span class="hljs-string">{handleClick}</span> ></span>Logout<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span></span>
     }
-  };
-
-  delTestCase = <span class="hljs-function"><span class="hljs-params">testCaseName</span> =></span> {
-    <span class="hljs-keyword">let</span> { test_cases, test_input, test_output } = <span class="hljs-built_in">this</span>.state;
-    <span class="hljs-keyword">const</span> index = test_cases.findIndex(
-      <span class="hljs-function"><span class="hljs-params">test</span> =></span> test.testCaseName === testCaseName
-    );
-    test_cases = test_cases.filter(<span class="hljs-function">(<span class="hljs-params">a, i</span>) =></span> i != index);
-    test_input = test_input.filter(<span class="hljs-function">(<span class="hljs-params">a, i</span>) =></span> i != index);
-    test_output = test_output.filter(<span class="hljs-function">(<span class="hljs-params">a, i</span>) =></span> i != index);
-    <span class="hljs-built_in">this</span>.setState({ test_cases, test_input, test_output });
-  };
-
-  addSettings = <span class="hljs-function"><span class="hljs-params">setting</span> =></span> {
-    <span class="hljs-built_in">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =></span> {
-      <span class="hljs-keyword">return</span> { <span class="hljs-attr">settings</span>: [...state.settings, setting] };
-    }, <span class="hljs-built_in">this</span>.saveToLocalStorage);
-  };
-
-  delSettings = <span class="hljs-function"><span class="hljs-params">language</span> =></span> {
-    <span class="hljs-keyword">let</span> { <span class="hljs-attr">settings</span>: newSetting } = <span class="hljs-built_in">this</span>.state;
-    newSetting = newSetting.filter(<span class="hljs-function"><span class="hljs-params">item</span> =></span> item.language != language);
-    <span class="hljs-built_in">this</span>.setState({ <span class="hljs-attr">settings</span>: newSetting }, <span class="hljs-built_in">this</span>.saveToLocalStorage);
-  };
-
-  handleTabChange = <span class="hljs-function"><span class="hljs-params">tab</span> =></span> {
-    <span class="hljs-keyword">if</span> (tab === <span class="hljs-string">"details"</span>) {
-      <span class="hljs-built_in">this</span>.setState({
-        <span class="hljs-attr">detailsTab</span>: <span class="hljs-literal">true</span>,
-        <span class="hljs-attr">settingsTab</span>: <span class="hljs-literal">false</span>,
-        <span class="hljs-attr">testCasesTab</span>: <span class="hljs-literal">false</span>
-      });
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tab === <span class="hljs-string">"settings"</span>) {
-      <span class="hljs-built_in">this</span>.setState({
-        <span class="hljs-attr">detailsTab</span>: <span class="hljs-literal">false</span>,
-        <span class="hljs-attr">settingsTab</span>: <span class="hljs-literal">true</span>,
-        <span class="hljs-attr">testCasesTab</span>: <span class="hljs-literal">false</span>
-      });
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tab === <span class="hljs-string">"test"</span>) {
-      <span class="hljs-built_in">this</span>.setState({
-        <span class="hljs-attr">detailsTab</span>: <span class="hljs-literal">false</span>,
-        <span class="hljs-attr">settingsTab</span>: <span class="hljs-literal">false</span>,
-        <span class="hljs-attr">testCasesTab</span>: <span class="hljs-literal">true</span>
-      });
+    <span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span> = <span class="hljs-string">{shandleClick}</span>></span>Login<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span></span>
     }
-  };
-
-  createChallenge = <span class="hljs-function">() =></span> {
-    <span class="hljs-comment">//   send data</span>
-    <span class="hljs-keyword">const</span> form = <span class="hljs-keyword">new</span> FormData();
-    <span class="hljs-comment">// use new form data</span>
-    <span class="hljs-keyword">const</span> data = {
-      <span class="hljs-attr">difficulty</span>: <span class="hljs-built_in">this</span>.state.difficulty,
-      <span class="hljs-attr">description</span>: <span class="hljs-built_in">this</span>.state.description,
-      <span class="hljs-attr">problem_statement</span>: <span class="hljs-built_in">this</span>.state.problem_statement,
-      <span class="hljs-attr">input_format</span>: <span class="hljs-built_in">this</span>.state.input_format,
-      <span class="hljs-attr">constraints</span>: <span class="hljs-built_in">this</span>.state.constraints,
-      <span class="hljs-attr">output_format</span>: <span class="hljs-built_in">this</span>.state.output_format,
-      <span class="hljs-attr">sample_input</span>: <span class="hljs-built_in">this</span>.state.sample_input,
-      <span class="hljs-attr">sample_output</span>: <span class="hljs-built_in">this</span>.state.sample_output
-    };
-    <span class="hljs-keyword">const</span> test_cases = <span class="hljs-built_in">this</span>.state.test_cases.map(<span class="hljs-function"><span class="hljs-params">tcs</span> =></span> {
-      <span class="hljs-keyword">return</span> {
-        <span class="hljs-attr">test_case_name</span>: tcs.testCaseName,
-        <span class="hljs-attr">visibility</span>: tcs.visibility,
-        <span class="hljs-attr">strength</span>: tcs.strength
-      };
-    });
-    <span class="hljs-comment">// validation</span>
-    <span class="hljs-keyword">if</span> (data &#x26;&#x26; test_cases &#x26;&#x26; <span class="hljs-built_in">this</span>.state.settings) {
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> data) {
-        <span class="hljs-keyword">if</span> (!data[key]) {
-          alert(<span class="hljs-string">`<span class="hljs-subst">${key}</span> is required`</span>);
-          <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-        }
-      }
-      <span class="hljs-keyword">if</span> (!test_cases.length) {
-        alert(<span class="hljs-string">"Test Cases required"</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-      }
-      <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.state.settings.length) {
-        alert(<span class="hljs-string">"Add Settings"</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-      }
-    } <span class="hljs-keyword">else</span> {
-      alert(<span class="hljs-string">"All fields are mandatory"</span>);
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-    }
-    <span class="hljs-comment">// call api</span>
-
-    <span class="hljs-comment">// set to initial state on successfull response</span>
-
-    form.append(<span class="hljs-string">"challenge_details"</span>, <span class="hljs-built_in">JSON</span>.stringify(data));
-    form.append(<span class="hljs-string">"test_cases"</span>, <span class="hljs-built_in">JSON</span>.stringify(test_cases));
-    form.append(<span class="hljs-string">"settings"</span>, <span class="hljs-built_in">JSON</span>.stringify(<span class="hljs-built_in">this</span>.state.settings));
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> a = <span class="hljs-number">0</span>; a &#x3C; <span class="hljs-built_in">this</span>.state.test_input.length; a++) {
-      form.append(
-        <span class="hljs-string">`test_case_input<span class="hljs-subst">${a}</span>`</span>,
-        <span class="hljs-built_in">this</span>.state.test_input[a],
-        <span class="hljs-built_in">this</span>.state.test_input[a].name
-      );
-    }
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> b = <span class="hljs-number">0</span>; b &#x3C; <span class="hljs-built_in">this</span>.state.test_output.length; b++) {
-      form.append(
-        <span class="hljs-string">`test_case_output<span class="hljs-subst">${b}</span>`</span>,
-        <span class="hljs-built_in">this</span>.state.test_output[b],
-        <span class="hljs-built_in">this</span>.state.test_output[b].name
-      );
-    }
-    <span class="hljs-comment">// console.log(form)</span>
-    <span class="hljs-keyword">const</span> { token } = <span class="hljs-built_in">this</span>.props;
-    <span class="hljs-built_in">console</span>.log(form, <span class="hljs-built_in">JSON</span>.stringify(form));
-    <span class="hljs-keyword">const</span> options = {
-      <span class="hljs-attr">onUploadProgress</span>:<span class="hljs-function">(<span class="hljs-params">progressEvent</span>)=></span>{
-        <span class="hljs-keyword">const</span> { loaded, total } = progressEvent;
-        <span class="hljs-keyword">let</span> percent = <span class="hljs-built_in">Math</span>.floor((loaded*<span class="hljs-number">100</span>)/total);
-        <span class="hljs-keyword">if</span>(toast.isActive(<span class="hljs-string">"upload-container"</span>)){
-          toast.update(<span class="hljs-string">"upload-container"</span>,{ <span class="hljs-attr">render</span>: <span class="hljs-function">()=></span><span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">Math</span>.ceil(loaded<span class="hljs-regexp">/1024)}KB of ${Math.ceil(total/</span><span class="hljs-number">1024</span>)}</span>KB || <span class="hljs-subst">${percent}</span>%`</span> })
-        }
-        <span class="hljs-keyword">else</span>{
-          toast.info(<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-built_in">Math</span>.ceil(loaded<span class="hljs-regexp">/1024)}KB of ${Math.ceil(total/</span><span class="hljs-number">1024</span>)}</span>KB || <span class="hljs-subst">${percent}</span>%`</span>,{
-            <span class="hljs-attr">toastId</span>: <span class="hljs-string">"upload-container"</span>,
-            <span class="hljs-attr">hideProgressBar</span>: <span class="hljs-literal">true</span>
-          })
-        }
-        <span class="hljs-keyword">if</span>(percent===<span class="hljs-number">100</span>){
-          toast.dismiss(<span class="hljs-string">"upload-container"</span>)
-        }
-      },
-      <span class="hljs-attr">headers</span>: {
-        <span class="hljs-string">"x-amzn-oidc-data"</span>: token
-      }
-    }
-    axios
-      .post(<span class="hljs-string">`/challenge/<span class="hljs-subst">${<span class="hljs-built_in">this</span>.state.challenge_name}</span>`</span>, form, options)
-      .then(<span class="hljs-function"><span class="hljs-params">res</span> =></span> {
-        <span class="hljs-keyword">if</span> (!res.data) {
-          <span class="hljs-built_in">this</span>.setState({ <span class="hljs-attr">resMessage</span>: <span class="hljs-string">"add failed"</span> });
-        } <span class="hljs-keyword">else</span> {
-          <span class="hljs-built_in">this</span>.setState({ <span class="hljs-attr">resMessage</span>: <span class="hljs-string">"add successful"</span> });
-        }
-        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> <span class="hljs-built_in">this</span>.setState({ <span class="hljs-attr">resMessage</span>: <span class="hljs-string">""</span> }), <span class="hljs-number">2000</span>);
-      })
-      .catch(<span class="hljs-function"><span class="hljs-params">err</span> =></span> <span class="hljs-built_in">console</span>.log(err));
-  };
-
-  handleReset = <span class="hljs-function">() =></span> {
-    <span class="hljs-built_in">this</span>.setState({ ...initialState }, <span class="hljs-built_in">this</span>.saveToLocalStorage);
-  };
-
-  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-keyword">const</span> {
-      detailsTab,
-      settingsTab,
-      testCasesTab,
-      <span class="hljs-attr">challenge_name</span>: challengeName,
-      difficulty,
-      description,
-      <span class="hljs-attr">problem_statement</span>: problemStatement,
-      <span class="hljs-attr">input_format</span>: inputFormat,
-      constraints,
-      <span class="hljs-attr">output_format</span>: outputFormat,
-      settings,
-      sample_input,
-      sample_output,
-      <span class="hljs-attr">test_cases</span>: testCases,
-      resMessage
-    } = <span class="hljs-built_in">this</span>.state;
-    <span class="hljs-keyword">let</span> viewTab;
-    <span class="hljs-keyword">if</span> (detailsTab) {
-      viewTab = (
-        <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">ChallengeDetails</span>
-          <span class="hljs-attr">handleChange</span>=<span class="hljs-string">{this.handleDetailsChange}</span>
-          <span class="hljs-attr">challenge_name</span>=<span class="hljs-string">{challengeName}</span>
-          <span class="hljs-attr">difficulty</span>=<span class="hljs-string">{difficulty}</span>
-          <span class="hljs-attr">description</span>=<span class="hljs-string">{description}</span>
-          <span class="hljs-attr">problem_statement</span>=<span class="hljs-string">{problemStatement}</span>
-          <span class="hljs-attr">input_format</span>=<span class="hljs-string">{inputFormat}</span>
-          <span class="hljs-attr">constraints</span>=<span class="hljs-string">{constraints}</span>
-          <span class="hljs-attr">output_format</span>=<span class="hljs-string">{outputFormat}</span>
-          <span class="hljs-attr">sample_input</span>=<span class="hljs-string">{sample_input}</span>
-          <span class="hljs-attr">sample_output</span>=<span class="hljs-string">{sample_output}</span>
-        /></span></span>
-      );
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (settingsTab) {
-      viewTab = (
-        <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">ChallengeSettings</span>
-          <span class="hljs-attr">addSettings</span>=<span class="hljs-string">{this.addSettings}</span>
-          <span class="hljs-attr">settings</span>=<span class="hljs-string">{settings}</span>
-          <span class="hljs-attr">delSettings</span>=<span class="hljs-string">{this.delSettings}</span>
-        /></span></span>
-      );
-    } <span class="hljs-keyword">else</span> {
-      viewTab = (
-        <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">AddTestCases</span>
-          <span class="hljs-attr">delTestCase</span>=<span class="hljs-string">{this.delTestCase}</span>
-          <span class="hljs-attr">test_cases</span>=<span class="hljs-string">{testCases}</span>
-          <span class="hljs-attr">addTestCase</span>=<span class="hljs-string">{this.addTestCase}</span>
-        /></span></span>
-      );
-    }
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"container p-5 bg-white border shadow-sm"</span>></span>
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">ul</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"nav nav-tabs"</span>></span>
-          <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"nav-item"</span>></span>
-            <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
-              <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span>
-              <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> this.handleTabChange("details")}
-              className={`nav-link ${detailsTab &#x26;&#x26; "active"}`}
-            >
-              Details
-            <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-          <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
-          <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"nav-item"</span>></span>
-            <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
-              <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span>
-              <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> this.handleTabChange("test")}
-              className={`nav-link ${testCasesTab &#x26;&#x26; "active"}`}
-            >
-              Test Cases
-            <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-          <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
-          <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"nav-item"</span>></span>
-            <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
-              <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span>
-              <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> this.handleTabChange("settings")}
-              className={`nav-link ${settingsTab &#x26;&#x26; "active"}`}
-            >
-              Settings
-            <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-          <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
-        <span class="hljs-tag">&#x3C;/<span class="hljs-name">ul</span>></span>
-        {viewTab}
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
-          <span class="hljs-attr">className</span>=<span class="hljs-string">"btn btn-dark active text-right"</span>
-          <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.handleReset}</span>
-        ></span>
-          RESET DATA
-        <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
-          <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span>
-          <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.createChallenge}</span>
-          <span class="hljs-attr">className</span>=<span class="hljs-string">"btn btn-raised btn-dark btn-block"</span>
-        ></span>
-          Add Challenge
-        <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>{resMessage != "" &#x26;&#x26; resMessage}<span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
-    );
-  }
 }
 
 
+ReactDOM.render(
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">App</span> /></span></span>,
+  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
+);
+
 </code></pre>
-</section><section class="slide"><h2>Hooks at a Glance</h2>
-<p><code>They let you use state and other React features without writing a class.</code></p>
-</section><section class="slide"><h2>What are hooks?</h2>
-<p>Hooks are functions that let you “hook into” React state and lifecycle features from function components. Hooks don’t work inside classes — they let you use React without classes.</p>
-</section><section class="slide"><h2>When would I use a Hook?</h2>
-<p>If you write a function component and realize you need to add some state to it, previously you had to convert it to a class. Now you can use a Hook inside the existing function component.</p>
-<p>APIs we need to learn first</p>
-<ul>
-<li><code>useState</code></li>
-<li><code>useEffect</code></li>
-</ul>
-<p>You must have noticed that the APIs begin with a <code>use</code>, this is intentional, and it is recommended practise to keep all hooks apis starting with <code>use</code></p>
-</section><section class="slide"><h2>useState Hook</h2>
-<p>You might have previously known functional components as “stateless components”. By introducing the ability to use React state from these, so we prefer the name “function components”.</p>
-<p>Hooks don’t work inside classes. But you can use them instead of writing classes.</p>
-</section><section class="slide"><h2>before</h2>
-<p>Equivalent class component</p>
-<pre><code class="hljs language-jsx">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> {
-    <span class="hljs-built_in">super</span>(props);
-    <span class="hljs-built_in">this</span>.state = {
-      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
-    };
+<p><a href="https://codepen.io/albseb511/pen/QWKQorq">https://codepen.io/albseb511/pen/QWKQorq</a></p>
+</section><section class="slide"><h2>You can also embed javascript expressions within JSX to perform conditional rendering.</h2>
+<p> <code>Inline If-Else with Logical &#x26;&#x26; Operator</code></p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Mailbox</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">const</span> unreadMessages = props.unreadMessages;
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">h1</span>></span>Hello!<span class="hljs-tag">&#x3C;/<span class="hljs-name">h1</span>></span>
+      {unreadMessages.length > 0 &#x26;&#x26;
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">h2</span>></span>
+          You have {unreadMessages.length} unread messages.
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">h2</span>></span>
+      }
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
+  );
+}
+</code></pre>
+<p>const messages = ['React', 'Re: React', 'Re:Re: React'];
+ReactDOM.render(
+<mailbox unreadmessages="{messages}">,
+document.getElementById('root')
+);</mailbox></p>
+<p><strong>Example:</strong>
+<a href="https://codepen.io/gaearon/pen/ozJddz?editors=0010">https://codepen.io/gaearon/pen/ozJddz?editors=0010</a></p>
+</section><section class="slide"><h2><strong>Using the conditional(ternary) operator:</strong></h2>
+<p>The conditional operator is often used as a shorthand for the if statement. </p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator</a></p>
+<p>This can be really useful in react for in-line conditional rendering.
+Here is the login button example with the conditional operator.</p>
+<p><code>Conditional rendering with conditional operator</code></p>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">//Simple button that changes from login to logout when it is clicked!</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span> (<span class="hljs-params"></span>)</span>{
+  <span class="hljs-keyword">const</span> [isLoggedIn, setIsLoggedIn] = React.useState(<span class="hljs-literal">false</span>)
+  
+  <span class="hljs-keyword">const</span> handleClick = <span class="hljs-function">() =></span>{
+     setIsLoggedIn( !isLoggedIn )
+  }
+  
+  <span class="hljs-keyword">return</span> isLoggedIn ? (
+      <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span> = <span class="hljs-string">{handleClick}</span> ></span>Logout<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span></span>
+      ) : ( 
+      <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span> = <span class="hljs-string">{handleClick}</span>></span>Login<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span></span>
+      );
+}
+
+
+ReactDOM.render(
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">App</span> /></span></span>,
+  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
+);
+</code></pre>
+<p><strong>Example:</strong>
+<a href="https://codepen.io/albseb511/pen/PoGQLab">https://codepen.io/albseb511/pen/PoGQLab</a></p>
+</section><section class="slide"><h2><strong>Preventing components from rendering:</strong></h2>
+<p>Sometimes you may want to hide or delete components after rendering it. </p>
+<p>To do this return <code>null</code> instead of any JSX in the render function. </p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">WarningBanner</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">if</span> (!props.warn) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
   }
 
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"warning"</span>></span>
+      Warning!
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
+  );
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Page</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> {
+    <span class="hljs-built_in">super</span>(props);
+    <span class="hljs-built_in">this</span>.state = {<span class="hljs-attr">showWarning</span>: <span class="hljs-literal">true</span>}
+    <span class="hljs-built_in">this</span>.handleToggleClick = <span class="hljs-built_in">this</span>.handleToggleClick.bind(<span class="hljs-built_in">this</span>);
+  }
+
+  <span class="hljs-function"><span class="hljs-title">handleToggleClick</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">this</span>.setState(<span class="hljs-function"><span class="hljs-params">prevState</span> =></span> ({
+      <span class="hljs-attr">showWarning</span>: !prevState.showWarning
+    }));
+  }
+  
   <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-keyword">return</span> (
       <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">p</span>></span>You clicked {this.state.count} times<span class="hljs-tag">&#x3C;/<span class="hljs-name">p</span>></span>
-        <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> this.setState({ count: this.state.count + 1 })}>
-          Click me
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">WarningBanner</span> <span class="hljs-attr">warn</span>=<span class="hljs-string">{this.state.showWarning}</span> /></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.handleToggleClick}</span>></span>
+          {this.state.showWarning ? 'Hide' : 'Show'}
         <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
       <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
     );
   }
 }
 
+ReactDOM.render(
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">Page</span> /></span></span>,
+  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
+);
 </code></pre>
-</section><section class="slide"><h2>after</h2>
-<pre><code class="hljs language-jsx">
-<span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-comment">// Declare a new state variable, which we'll call "count"  </span>
-  <span class="hljs-comment">//   array destructuring</span>
-  <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>);
-
-  <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">p</span>></span>You clicked {count} times<span class="hljs-tag">&#x3C;/<span class="hljs-name">p</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(count + 1)}>
-        Click me
-      <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
-  );
-}
-
-</code></pre>
-</section><section class="slide"><h2>useState</h2>
-<p><code>useState</code> returns a pair: the current state value and a function that lets you update it.</p>
-<p>Declaring multiple values</p>
-<pre><code class="hljs language-jsx">
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ExampleWithManyStates</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-comment">// Declare multiple state variables!</span>
-  <span class="hljs-keyword">const</span> [age, setAge] = useState(<span class="hljs-number">42</span>);
-  <span class="hljs-keyword">const</span> [fruit, setFruit] = useState(<span class="hljs-string">'banana'</span>);
-  <span class="hljs-keyword">const</span> [todos, setTodos] = useState([{ <span class="hljs-attr">text</span>: <span class="hljs-string">'Learn Hooks'</span> }]);
-  <span class="hljs-comment">// ...</span>
-}
-
-</code></pre>
-</section><section class="slide"><h2>TIP</h2>
-<p>Declaring state variables as a pair of <code>[something, setSomething]</code> is recommended</p>
-<p><a href="https://reactjs.org/docs/hooks-state.html">Docs</a></p>
-</section><section class="slide"><h2>use-Effect Hook</h2>
-<p>You can perform data fetching, subscriptions, or manually changing the DOM from React components before.</p>
-<p>We call these operations “side effects” (or “effects” for short) because they can affect other components and can’t be done during rendering.</p>
-<p>The Effect Hook, useEffect, adds the ability to perform side effects from a function component. </p>
-<p>It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount in React classes, but unified into a single API. ( We will have a comparison later )</p>
-<p>You can also think of it as an after render method.</p>
-</section><section class="slide"><h2>use-Effect hook</h2>
-<pre><code class="hljs language-jsx">
-<span class="hljs-keyword">import</span> React, { useState, useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>);
-
-  <span class="hljs-comment">// Similar to componentDidMount and componentDidUpdate: </span>
-   useEffect(<span class="hljs-function">() =></span> {    
-       <span class="hljs-comment">// Update the document title using the browser API    </span>
-       <span class="hljs-built_in">document</span>.title = <span class="hljs-string">`You clicked <span class="hljs-subst">${count}</span> times`</span>;  
-    });
-
-  <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">p</span>></span>You clicked {count} times<span class="hljs-tag">&#x3C;/<span class="hljs-name">p</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(count + 1)}>
-        Click me
-      <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
-  );
-}
-
-
-</code></pre>
-</section><section class="slide"><h2>use-Effect hook</h2>
-<p>When you call useEffect, you’re telling React to run your “effect” function after flushing changes to the DOM. </p>
-<p>Effects are declared inside the component so they have access to its props and state. </p>
-<p>By default, React runs the effects after every render — including the first render. </p>
-<pre><code class="hljs language-jsx">  useEffect(<span class="hljs-function">() =></span> {    
-    <span class="hljs-comment">// writing cleanups</span>
-    <span class="hljs-keyword">let</span> timer = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">()=></span>setCount(<span class="hljs-function"><span class="hljs-params">count</span>=></span>count+<span class="hljs-number">1</span>),<span class="hljs-number">1000</span>)
-    <span class="hljs-keyword">return</span> <span class="hljs-function">()=></span>{
-        <span class="hljs-comment">// write cleanups here </span>
-        <span class="hljs-comment">// will be executed before component unmounts</span>
-        <span class="hljs-built_in">clearInterval</span>(timer)
-    }
-    });
-
-</code></pre>
-<p><a href="https://reactjs.org/docs/hooks-effect.html">Docs</a></p>
-</section><section class="slide"><h2>updates</h2>
-<p>Both useState and useReducer Hooks bail out of updates if the next value is the same as the previous one. Mutating state in place and calling setState will not cause a re-render.</p>
-<p>Normally, you shouldn’t mutate local state in React. However, as an escape hatch, you can use an incrementing counter to force a re-render even if the state has not changed:</p>
-<pre><code class="hljs language-jsx">  <span class="hljs-keyword">const</span> [ignored, forceUpdate] = useState(<span class="hljs-function"><span class="hljs-params">x</span> =></span> x + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
-
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleClick</span>(<span class="hljs-params"></span>) </span>{
-    forceUpdate();
-  }
-</code></pre>
-</section><section class="slide"><h2>Rules of Hooks</h2>
-<p>Hooks are JavaScript functions, but they impose two additional rules:</p>
+<p><strong>Example:</strong></p>
+<p><a href="https://codepen.io/gaearon/pen/Xjoqwm?editors=0010">https://codepen.io/gaearon/pen/Xjoqwm?editors=0010</a></p>
+</section></section><section class="slides-section"><section class="slide"><h1>useRef hook</h1>
 <ul>
-<li>Only call Hooks at the top level. Don’t call Hooks inside loops, conditions, or nested functions.</li>
-<li>Only call Hooks from React function components. Don’t call Hooks from regular JavaScript functions. </li>
-<li>There is just one other valid place to call Hooks — your own custom Hooks. We’ll learn about them later</li>
+<li>There are times you want to maintain a state, and update it without the need to re render the component. Storybook</li>
+<li>if you want to persist the state between re-render of a component then we can use the useRef hook</li>
 </ul>
-<p><a href="https://reactjs.org/docs/hooks-rules.html">Docs</a></p>
-</section></section><section class="slides-section"><section class="slide"><h1>useState API</h1>
-<p><code>const [state, setState] = useState(initialState);</code></p>
-<p>Returns a stateful value, and a function to update it.</p>
-<p>During the initial render, the returned state (state) is the same as the value passed as the first argument (initialState).</p>
-</section><section class="slide"><h2>seState</h2>
-<p>The setState function is used to update the state. It accepts a new state value and enqueues a re-render of the component.</p>
-<p><code>setState(newState);</code></p>
-<p>During subsequent re-renders, the first value returned by useState will always be the most recent state after applying updates.</p>
-</section><section class="slide"><h2>functional updates</h2>
-<p>If the new state is computed using the previous state, you can pass a function to setState. The function will receive the previous value, and return an updated value. Here’s an example of a counter component that uses both forms of setState:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">{initialCount}</span>) </span>{
-  <span class="hljs-keyword">const</span> [count, setCount] = useState(initialCount);
-  <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&#x3C;></span>
-      Count: {count}
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(initialCount)}>Reset<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(prevCount => prevCount - 1)}>-<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-      <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =></span> setCount(prevCount => prevCount + 1)}>+<span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>
-    <span class="hljs-tag">&#x3C;/></span></span>
-  );
-}
-</code></pre>
-<p>The ”+” and ”-” buttons use the functional form, because the updated value is based on the previous value. But the “Reset” button uses the normal form, because it always sets the count back to the initial value.</p>
-<p>If your update function returns the exact same value as the current state, the subsequent rerender will be skipped completely.</p>
-</section><section class="slide"><h2>Notes</h2>
-<p>Unlike the <code>this.setState</code> method found in class components, <code>useState</code> does not automatically merge update objects. You can replicate this behavior by combining the function updater form with object spread syntax:</p>
-<pre><code class="hljs language-jsx">setState(<span class="hljs-function"><span class="hljs-params">prevState</span> =></span> {
-  <span class="hljs-comment">// Object.assign would also work</span>
-  <span class="hljs-keyword">return</span> {...prevState, ...updatedValues};
-});
-</code></pre>
-</section><section class="slide"><h2>React will stop the re-rendering process if</h2>
-<p>If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects. (React uses the Object.is comparison algorithm.)</p>
-<p>Note that React may still need to render that specific component again before bailing out. That shouldn’t be a concern because React won’t unnecessarily go “deeper” into the tree.</p>
-</section><section class="slide"><h2>Examples</h2>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> [formState, setFormState] = useState({})
+<p>Refs provide a way to access DOM nodes or React elements created in the render method.</p>
+<p>In the typical React dataflow, props are the only way that parent components interact with their children. To modify a child, you re-render it with new props. However, there are a few cases where you need to imperatively modify a child outside of the typical dataflow. The child to be modified could be an instance of a React component, or it could be a DOM element. For both of these cases, React provides an escape hatch.</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> ref = React.useRef()
+<span class="hljs-comment">// ref = { current: null }</span>
 
-<span class="hljs-keyword">return</span>(
-  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit}</span>></span>
-    
-  <span class="hljs-tag">&#x3C;/<span class="hljs-name">form</span>></span></span>
+</code></pre>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> elem = React.useRef()
+
+<span class="hljs-keyword">const</span> onNewMessage = <span class="hljs-function">() =></span> {
+    elem.current.scrollTop = <span class="hljs-comment">// value</span>
+}
+
+<span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{elem}</span> ></span>
+        // lets assume the container is a scrollable container
+        // and lets say if a user receives a new message, you want to push the scroll bar to the bottom part
+        // refs also can be assigned with a callback method like `ref = { n => elem = n }`
+        // useful if you have an array of refs elem[i] = n
+
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+    <span class="hljs-tag">&#x3C;/></span></span>
 )
 
 </code></pre>
-</section></section><section class="slides-section"><section class="slide"><h1>useEffect API</h1>
-<p><code>useEffect(didUpdateCallback);</code></p>
-<p>Accepts a function that contains imperative, possibly effectful code.</p>
-<p>Mutations, subscriptions, timers, logging, and other side effects are not allowed inside the main body of a function component (referred to as React’s render phase). Doing so will lead to confusing bugs and inconsistencies in the UI.</p>
-<p>Instead, use useEffect. The function passed to useEffect will run after the render is committed to the screen. Think of effects as an escape hatch from React’s purely functional world into the imperative world.</p>
-<p>By default, effects run after every completed render, but you can choose to fire them only when certain values have changed.</p>
-</section><section class="slide"><h2>Cleanup function in useEffect</h2>
-<p>Often, effects create resources that need to be cleaned up before the component leaves the screen, such as a subscription or timer ID. To do this, the function passed to useEffect may return a clean-up function. For example, to create a subscription:</p>
-<pre><code class="hljs language-jsx">
-useEffect(<span class="hljs-function">()=></span>{
+</section><section class="slide"><h2>When to use Refs</h2>
+<p>When to Use Refs
+There are a few good use cases for refs:</p>
+<ul>
+<li>Managing focus, text selection, or media playback.</li>
+<li>Triggering imperative animations.</li>
+<li>Integrating with third-party DOM libraries.</li>
+<li>Avoid using refs for anything that can be done declaratively.</li>
+<li>make DOM manipulation like scroll behavior etc.</li>
+</ul>
+</section><section class="slide"><h2>Example timer</h2>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> ref = React.useRef()
+<span class="hljs-comment">// ref = { current: null }</span>
+
+<span class="hljs-keyword">const</span> startTimer = <span class="hljs-function">() =></span> {
+    <span class="hljs-comment">// if timer is not running then</span>
+    <span class="hljs-keyword">const</span> ref.current = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =></span>{ 
+        setTimer(<span class="hljs-function"><span class="hljs-params">prev</span>=></span>prev+<span class="hljs-number">1</span>)
+     }, <span class="hljs-number">1000</span> )
+}
+
+<span class="hljs-keyword">const</span> stopTimer = <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">clearInterval</span>( ref.current )
+}
+
+React.useEffect(<span class="hljs-function">() =></span>{
     startTimer()
-    <span class="hljs-keyword">return</span> <span class="hljs-function">() =></span> {
-        stopTimer()
+    <span class="hljs-keyword">return</span> <span class="hljs-function">() =></span> stopTimer()
+    <span class="hljs-comment">// or </span>
+    <span class="hljs-keyword">return</span> stopTimer
+}, [])
+
+</code></pre>
+</section><section class="slide"><h2>Example file handling</h2>
+<pre><code class="hljs language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Form</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">const</span> file = React.useRef()
+    <span class="hljs-keyword">const</span> handleSubmit = <span class="hljs-function">(<span class="hljs-params">e</span>) =></span> {
+        e.preventDefault();
+        <span class="hljs-built_in">console</span>.log( <span class="hljs-string">`file is <span class="hljs-subst">${file.current.files[<span class="hljs-number">0</span>]}</span>`</span> )
     }
-},[])
+    <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit}</span>></span>
+            <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"file"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{file}</span> /></span>
+            <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"SUBMIT"</span>/></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">form</span>></span></span>
+    )
+}
 
-useEffect(<span class="hljs-function">() =></span> {
-  <span class="hljs-keyword">const</span> subscription = props.source.subscribe();
-  <span class="hljs-keyword">return</span> <span class="hljs-function">() =></span> {
-    <span class="hljs-comment">// Clean up the subscription</span>
-    subscription.unsubscribe();
-  };
-});
+[File API - MDN](https:<span class="hljs-comment">//developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)</span>
+
+[Example](https:<span class="hljs-comment">//codesandbox.io/s/forms-image-r1758)</span>
+
 </code></pre>
-<p>The clean-up function runs before the component is removed from the UI to prevent memory leaks. Additionally, if a component renders multiple times (as they typically do), the previous effect is cleaned up before executing the next effect. In our example, this means a new subscription is created on every update. To avoid firing an effect on every update, refer to the next section.</p>
-</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (1/4)</h2>
-<p>Generally speaking, no</p>
-<pre><code class="hljs language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params">{ someProp }</span>) </span>{
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(someProp);
+</section></section><section class="slides-section"><section class="slide"><h1><code>Forms</code></h1>
+<p><a href="https://reactjs.org/docs/forms.html">Documentation</a></p>
+<p><a href="https://codepen.io/albseb511/pen/JjPxyBW?editors=0011">Codepen</a></p>
+<p>HTML form elements work a little bit differently from other DOM elements in React, because form elements naturally keep some internal state. For example, this form in plain HTML accepts a single name:</p>
+<pre><code class="hljs language-javascript">&#x3C;form>
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">label</span>></span>
+    Name:
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"name"</span> /></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">label</span>></span></span>
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Submit"</span> /></span></span>
+&#x3C;/form>
+</code></pre>
+<p>This form has the default HTML form behavior of browsing to a new page when the user submits the form. If you want this behavior in React, it just works. But in most cases, it’s convenient to have a JavaScript function that handles the submission of the form and has access to the data that the user entered into the form. The standard way to achieve this is with a technique called “controlled components”.</p>
+</section><section class="slide"><h2>Controlled Components</h2>
+<p>In HTML, form elements such as input, textarea, and select typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with setState().</p>
+<p>We can combine the two by making the React state be the “single source of truth”. Then the React component that renders a form also controls what happens in that form on subsequent user input. An input form element whose value is controlled by React in this way is called a “controlled component”.</p>
+<p>For example, if we want to make the previous example log the name when it is submitted, we can write the form as a controlled component:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Form</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [value, setValue] = React.useState(<span class="hljs-string">""</span>);
+
+  <span class="hljs-keyword">const</span> handleChange = <span class="hljs-function">(<span class="hljs-params">event</span>) =></span> {
+    setValue( event.target.value);
   }
 
-  useEffect(<span class="hljs-function">() =></span> {
-    doSomething();
-  }, []); <span class="hljs-comment">// 🔴 This is not safe (it calls `doSomething` which uses `someProp`)</span>
-}
-</code></pre>
-</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (2/4)</h2>
-<p>It’s difficult to remember which props or state are used by functions outside of the effect. This is why usually you’ll want to declare functions needed by an effect inside of it. Then it’s easy to see what values from the component scope that effect depends on:</p>
-<pre><code class="hljs language-jsx">
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params">{ someProp }</span>) </span>{
-  useEffect(<span class="hljs-function">() =></span> {
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
-      <span class="hljs-built_in">console</span>.log(someProp);
-    }
-
-    doSomething();
-  }, [someProp]); <span class="hljs-comment">// ✅ OK (our effect only uses `someProp`)</span>
-}
-</code></pre>
-<p>If after that we still don’t use any values from the component scope, it’s safe to specify []:</p>
-</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (3/4)</h2>
-<pre><code class="hljs language-jsx">
-useEffect(<span class="hljs-function">() =></span> {
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello'</span>);
+  <span class="hljs-keyword">const</span> handleSubmit = <span class="hljs-function">(<span class="hljs-params">event</span>) =></span> {
+    event.preventDefault();
+    alert(<span class="hljs-string">'A name was submitted: '</span> + value);
   }
 
-  doSomething();
-}, []); <span class="hljs-comment">// ✅ OK in this example because we don't use *any* values from component scope</span>
-</code></pre>
-</section><section class="slide"><h2>Is it safe to omit functions from the list of dependencies? (4/4)</h2>
-<p>It is only safe to omit a function from the dependency list if nothing in it (or the functions called by it) references props, state, or values derived from them. This example has a bug:</p>
-<pre><code class="hljs language-jsx">
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ProductPage</span>(<span class="hljs-params">{ productId }</span>) </span>{
-  <span class="hljs-keyword">const</span> [product, setProduct] = useState(<span class="hljs-literal">null</span>);
-
-  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fetchProduct</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'http://myapi/product/'</span> + productId); <span class="hljs-comment">// Uses productId prop</span>
-    <span class="hljs-keyword">const</span> json = <span class="hljs-keyword">await</span> response.json();
-    setProduct(json);
+  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit}</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">label</span>></span>
+          Name:
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{value}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">label</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Submit"</span> /></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">form</span>></span></span>
+    );
   }
-
-  useEffect(<span class="hljs-function">() =></span> {
-    fetchProduct();
-  }, []); <span class="hljs-comment">// 🔴 Invalid because `fetchProduct` uses `productId`</span>
-  <span class="hljs-comment">// ...</span>
 }
 </code></pre>
-<p>The recommended fix is to move that function inside of your effect. That makes it easy to see which props or state your effect uses, and to ensure they’re all declared</p>
-</section></section><section class="slides-section"><section class="slide"><h1><a href="https://reactjs.org/docs/state-and-lifecycle.html"><code>State and Lifecycle</code></a></h1>
-<p>Any react component that extends <code>React.Component</code> almost like a living organism will go through the following phases in its lifetime:</p>
-<ol>
-<li><code>Mounting</code></li>
-<li><code>Updating</code></li>
-<li><code>Unmounting</code></li>
-</ol>
-<p>Lets go though each phase in-depth:</p>
-</section><section class="slide"><h2>NOTE:</h2>
-<p>React documentation is will update by early 2021 with more hooks oriented documentation.</p>
-<p>Lifecycle diagrams on the react docs are oriented to class components, till its updated we will refer to the community maintained docs for reference</p>
-<p><a href="https://reactwithhooks.netlify.app/">https://reactwithhooks.netlify.app/</a></p>
-</section><section class="slide"><h2><code>Mounting</code>:</h2>
-<p>When a component is mounted onto or inserted into the DOM for the first time, we call this the mounting phase.</p>
-</section><section class="slide"><h2><code>Updating</code>:</h2>
-<p>After the react component has been mounted, it can then recieve new updates through new props being sent by parents or from updating the state.</p>
-<p>An update can be triggered by </p>
-<ul>
-<li>new props</li>
-<li>state is updated</li>
-</ul>
-</section><section class="slide"><h2><code>Unmounting</code></h2>
-<p>When a react component is unmounted, sometimes it is necessary to cleanup functions,
-for example, </p>
-<ul>
-<li>setTimeout / setInterval etc does not get garbage collected </li>
-<li>to unsubsribe to some events that you are listening to.</li>
-<li>to cancel some network request</li>
-</ul>
-<p>Each useEffect accepts a return statement that is a function, it will be invoked in the order of declaration of the useEffects</p>
-</section><section class="slide"><h2>If that was too confusing, here is a simple <code>graphic</code>:</h2>
-<p><a href="https://github.com/albseb511/albseb511.github.io/blob/master/notes/hooks/chart.png?raw=true">hooks-lcm-diagram</a></p>
-<p><a href="https://wavez.github.io/react-hooks-lifecycle/">react-hooks-lifecycle-methods-diagram</a></p>
-<p><a href="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">react-class-lifecycle-methods-diagram/</a></p></section></section></div>
+<p><a href="https://codepen.io/gaearon/pen/VmmPgp?editors=0010">Codepen</a></p>
+<p>Since the value attribute is set on our form element, the displayed value will always be this.state.value, making the React state the source of truth. Since handleChange runs on every keystroke to update the React state, the displayed value will update as the user types.</p>
+<p>With a controlled component, every state mutation will have an associated handler function. This makes it straightforward to modify or validate user input. For example, if we wanted to enforce that names are written with all uppercase letters, we could write handleChange as:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-title">handleChange</span>(<span class="hljs-params">event</span>)</span> {
+  setState(event.target.value.toUpperCase());
+}
+</code></pre>
+</section><section class="slide"><h2>Input Elements</h2>
+<p>When you are working with input elements like checkbox it uses the attribute checked to decide if the element is checked</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> handleChange = <span class="hljs-function"><span class="hljs-params">e</span> =></span> {
+  setState( e.target.checked )
+}
+<span class="hljs-keyword">return</span> (
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">checked</span>=<span class="hljs-string">{checked}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"checkbox"</span> /></span></span>
+)
+
+</code></pre>
+</section><section class="slide"><h2>Uncontrolled Forms</h2>
+<p><a href="https://reactjs.org/docs/uncontrolled-components.html">Documentation</a></p>
+<p>In most cases, we recommend using controlled components to implement forms. In a controlled component, form data is handled by a React component. The alternative is uncontrolled components, where form data is handled by the DOM itself.</p>
+<p>To write an uncontrolled component, instead of writing an event handler for every state update, you can use a ref to get form values from the DOM.</p>
+<p>This is more common when you work with a third party UI library where form data is managed by the library.</p>
+<p>For example, this code accepts a single name in an uncontrolled component:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Form</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> input = React.useRef();
+  <span class="hljs-keyword">const</span> <span class="hljs-function"><span class="hljs-title">handleSubmit</span>(<span class="hljs-params">event</span>)</span> {
+    alert(<span class="hljs-string">'A name was submitted: '</span> + <span class="hljs-built_in">this</span>.input.current.value);
+    event.preventDefault();
+  }
+
+  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit}</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">label</span>></span>
+          Name:
+          <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{input}</span> /></span>
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">label</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Submit"</span> /></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">form</span>></span></span>
+    );
+  }
+}
+</code></pre>
+<p><a href="https://codepen.io/gaearon/pen/WooRWa?editors=0010">Codepen</a></p></section></section></div>
     </div>
     <script>/*!
  * reveal.js
