@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Context API</title>
+    <title>Context</title>
     <style>/*!
  * reveal.js
  * http://revealjs.com
@@ -2165,9 +2165,10 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 </code></pre>
 </section></section><section class="slides-section"><section class="slide"><h1>CONTEXT API</h1>
-<p>The Context API provides a way to share state within a React component tree in an easy and clean way.
+<p>Context provides a way to pass data through the component tree without having to pass props down manually at every level in an easy and clean way.
 We have seen how messy and frustrating it is to work with props, and passing it down to compoennts. Its also known as prop drilling.</p>
 <p>So we can use Context API to pass down props into any children of a parent. We share the state from a parent to any of its children without passing the item as a prop at each level</p>
+<p>In a typical React application, data is passed top-down (parent to child) via props, but this can be cumbersome for certain types of props (e.g. locale preference, UI theme) that are required by many components within an application. Context provides a way to share values like these between components without having to explicitly pass a prop through every level of the tree.</p>
 </section><section class="slide"><h2><code>Provider, Consumer</code></h2>
 <p>So the Context API has two parts to it:</p>
 <ol>
@@ -2230,6 +2231,67 @@ We have seen how messy and frustrating it is to work with props, and passing it 
             <span class="hljs-tag">&#x3C;/<span class="hljs-name">AuthContext.Consumer</span>></span></span>
         )
     }
+}
+
+</code></pre>
+</section></section><section class="slides-section"><section class="slide"><h1>Whent to use context</h1>
+<p>Context is designed to share data that can be considered “global” for a tree of React components, such as the current authenticated user, theme, or preferred language.</p>
+<ul>
+<li>Using context, we can avoid passing props through intermediate elements:</li>
+<li>Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult.</li>
+</ul>
+</section><section class="slide"><h2><code>React.createContext</code></h2>
+<p><code>const MyContext = React.createContext(defaultValue);</code></p>
+<p>Creates a Context object. When React renders a component that subscribes to this Context object it will read the current context value from the closest matching Provider above it in the tree.</p>
+</section><section class="slide"><h2><code>Context.Provider</code></h2>
+<p><code>&#x3C;MyContext.Provider value={/* some value */}></code></p>
+<p>Every Context object comes with a Provider React component that allows consuming components to subscribe to context changes.</p>
+<p>Accepts a value prop to be passed to consuming components that are descendants of this Provider. One Provider can be connected to many consumers. Providers can be nested to override values deeper within the tree.</p>
+<p>All consumers that are descendants of a Provider will re-render whenever the Provider’s value prop changes. The propagation from Provider to descendant consumers is updated even when an ancestor component skips an update.</p>
+</section><section class="slide"><h2><code>useContext</code></h2>
+<p><code>const value = useContext(MyContext);</code></p>
+<p>Accepts a context object (the value returned from React.createContext) and returns the current context value for that context. The current context value is determined by the value prop of the nearest &#x3C;MyContext.Provider> above the calling component in the tree.</p>
+</section><section class="slide"><h2><code>Consuming Multiple Contexts</code></h2>
+<p>To keep context re-rendering fast, React needs to make each context consumer a separate node in the tree.</p>
+<pre><code class="hljs language-jsx">
+<span class="hljs-comment">// Theme context, default to light theme</span>
+<span class="hljs-keyword">const</span> ThemeContext = React.createContext(<span class="hljs-string">'light'</span>);
+
+<span class="hljs-comment">// Signed-in user context</span>
+<span class="hljs-keyword">const</span> UserContext = React.createContext({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'Guest'</span>,
+});
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">const</span> { signedInUser, theme } = props;
+
+  <span class="hljs-comment">// App component that provides initial context values</span>
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">ThemeContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{theme}</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">UserContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{signedInUser}</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">Layout</span> /></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">UserContext.Provider</span>></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">ThemeContext.Provider</span>></span></span>
+  );
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Layout</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">Sidebar</span> /></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">Content</span> /></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>
+  );
+}
+
+<span class="hljs-comment">// A component may consume multiple contexts</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Content</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> theme = useContext(ThemeContext);
+  <span class="hljs-keyword">const</span> user = useContext(UserContext);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">ProfilePage</span> <span class="hljs-attr">user</span>=<span class="hljs-string">{user}</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">{theme}</span> /></span></span>
+  );
 }
 
 </code></pre></section></section></div>
