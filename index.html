@@ -34,6 +34,7 @@
     <meta name="twitter:image:alt" content="Albert Sebastian — founder-builder and AI product engineer" />
     <link rel="canonical" href="https://albseb511.github.io/" />
     <link rel="preload" href="assets/neo-renaissance-bg.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="assets/albert-profile.jpg" as="image" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23201f1b%22/><text x=%2250%22 y=%2267%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22%23f2eee4%22 font-family=%22Georgia%22>AS</text></svg>" />
     <link rel="stylesheet" href="index.css" />
     <title>Albert Sebastian — Founder-Builder & AI Product Engineer</title>
@@ -65,6 +66,7 @@
             "jobTitle": "Independent Founder-Builder and AI Product Engineer",
             "description": "Founder-builder creating AI products, creative tools, agent systems, and production ML platforms.",
             "email": "mailto:albertsebastian511@gmail.com",
+            "image": "https://albseb511.github.io/assets/albert-profile.jpg",
             "homeLocation": { "@type": "Place", "name": "Bengaluru, India" },
             "sameAs": [
               "https://github.com/albseb511",
@@ -200,7 +202,7 @@
 
     <header class="site-header" data-header>
       <a class="wordmark" href="#top" aria-label="Albert Sebastian, home">
-        <span class="wordmark-mark">AS</span>
+        <span class="wordmark-mark"><img src="assets/albert-profile.jpg" alt="" width="36" height="36" /></span>
         <span class="wordmark-name">Albert Sebastian</span>
       </a>
       <nav class="site-nav" aria-label="Primary navigation">
@@ -238,21 +240,36 @@
             </div>
           </div>
 
-          <aside class="now-card reveal" aria-label="Currently building">
-            <div class="now-card-head">
-              <span>On the workbench</span>
-              <span class="live-label">Live / 2026</span>
-            </div>
-            <ol class="now-list">
-              <li><span>01</span><strong>Voicebound</strong><small>A story that listens back</small></li>
-              <li><span>02</span><strong>Mod OS</strong><small>Android, driven like a CLI</small></li>
-              <li><span>03</span><strong>Setu</strong><small>Indic AI desktop studio</small></li>
-            </ol>
-            <div class="now-card-foot">
-              <span>May 2026 → now</span>
-              <span>Build · test · learn · repeat</span>
-            </div>
-          </aside>
+          <div class="hero-side">
+            <figure class="profile-card reveal">
+              <div class="profile-photo-wrap">
+                <img
+                  src="assets/albert-profile.jpg"
+                  alt="Portrait of Albert Sebastian"
+                  width="460"
+                  height="460"
+                  fetchpriority="high"
+                />
+              </div>
+              <figcaption><strong>Albert Sebastian</strong><span>Founder-builder · Bengaluru</span></figcaption>
+            </figure>
+
+            <aside class="now-card reveal" aria-label="Currently building">
+              <div class="now-card-head">
+                <span>On the workbench</span>
+                <span class="live-label">Live / 2026</span>
+              </div>
+              <ol class="now-list">
+                <li><span>01</span><strong>Voicebound</strong><small>A story that listens back</small></li>
+                <li><span>02</span><strong>Mod OS</strong><small>Android, driven like a CLI</small></li>
+                <li><span>03</span><strong>Setu</strong><small>Indic AI desktop studio</small></li>
+              </ol>
+              <div class="now-card-foot">
+                <span>May 2026 → now</span>
+                <span>Build · test · learn · repeat</span>
+              </div>
+            </aside>
+          </div>
         </div>
 
         <div class="ticker" aria-label="Areas of practice">

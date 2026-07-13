@@ -10,6 +10,7 @@ const required = [
   'rel="canonical" href="https://albseb511.github.io/"',
   'name="robots" content="index, follow',
   'property="og:image" content="https://albseb511.github.io/assets/albert-sebastian-og.jpg"',
+  '"image": "https://albseb511.github.io/assets/albert-profile.jpg"',
   '"@type": "ProfilePage"',
   '"@type": "CreativeWork"',
 ];
@@ -23,7 +24,7 @@ const buildLogCount = (html.match(/class="build-entry /g) || []).length;
 if (projectCount !== projects.length) failures.push(`Expected ${projects.length} static projects, found ${projectCount}`);
 if (buildLogCount !== buildLog.length) failures.push(`Expected ${buildLog.length} static build entries, found ${buildLogCount}`);
 
-for (const path of ["robots.txt", "sitemap.xml", "assets/albert-sebastian-og.jpg"]) {
+for (const path of ["robots.txt", "sitemap.xml", "assets/albert-sebastian-og.jpg", "assets/albert-profile.jpg"]) {
   try {
     await access(new URL(path, root));
   } catch {
