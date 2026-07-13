@@ -1,21 +1,44 @@
-# Restaurant POS app
+# Albert Sebastian — Portfolio
 
-[Rest Manager](https://albseb511.github.io/rest_manager)
+Dependency-free personal portfolio for [albseb511.github.io](https://albseb511.github.io/).
 
+The root site is a static HTML/CSS/JavaScript build. Project content lives in
+`portfolio-data.js`; the older demo directories remain in place so their existing URLs
+continue to work.
 
-# Sorting visualised
+## Preview locally
 
-[Sort](https://albseb511.github.io/algo/sort/)
-Contains Bubble, Selection sort and Insertion sort
+```sh
+python3 -m http.server 8080
+```
 
-# Sudoku JS 
+Then open `http://localhost:8080`.
 
-[Sudoku JS](https://albseb511.github.io/sudoku/)
+## Structure
 
-# Honey_pot HTML-CSS-responsive
+- `index.html` — semantic page structure and metadata
+- `index.css` — responsive editorial design system
+- `portfolio-data.js` — featured projects and build log
+- `index.js` — rendering and small interaction enhancements
+- `assets/projects/` — optimized, public-safe project imagery
+- `assets/neo-renaissance-bg.jpg` — generated fresco backdrop used by the subtle hero parallax
 
-[Honey_pot](https://albseb511.github.io/honey_pot/)
+There is intentionally no build command or framework dependency. GitHub Pages can serve
+the repository directly.
 
-# Darth Vader HTML-CSS
+When project data changes, regenerate the crawlable HTML and schema, then run the SEO check:
 
-[Darth Vader](https://albseb511.github.io/darth_vader/)
+```sh
+npm run render
+npm run check
+```
+
+These scripts use Node.js only and add no runtime or package dependencies.
+
+## Preserved legacy demos
+
+- [Restaurant Manager](https://albseb511.github.io/rest_manager/)
+- [Sorting visualizer](https://albseb511.github.io/algo/sort/)
+- [Sudoku](https://albseb511.github.io/sudoku/)
+- [Honey Pot](https://albseb511.github.io/honey_pot/)
+- [Darth Vader](https://albseb511.github.io/darth_vader/)

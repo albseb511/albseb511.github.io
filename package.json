@@ -1,0 +1,9 @@
+{
+  "name": "albert-sebastian-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node scripts/render-static.js",
+    "check": "node scripts/check-seo.js"
+  }
+}
