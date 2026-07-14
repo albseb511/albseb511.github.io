@@ -617,7 +617,7 @@ a {
 }
 
 .visual-lme img {
-  object-position: center 35%;
+  object-position: center;
 }
 
 .visual-ray img,
