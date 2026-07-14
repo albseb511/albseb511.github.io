@@ -1560,8 +1560,7 @@ a {
   }
 
   .wordmark-name,
-  .site-nav a:nth-child(2),
-  .site-nav a:nth-child(3) {
+  .site-nav a:nth-child(2) {
     display: none;
   }
 
@@ -1704,7 +1703,6 @@ a {
 }
 
 @media (max-width: 470px) {
-  .site-nav a:first-child { display: none; }
   .hero-actions { align-items: flex-start; flex-direction: column; }
   .project-title-row { align-items: flex-start; flex-direction: column; }
   .project-title-row > span { order: -1; }
